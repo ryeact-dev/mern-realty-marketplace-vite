@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
+import { useUserStore } from '@/store';
 import { signin, signup } from '@/api/users.api';
 import SignIn from '@/features/Login/SignIn';
 import SignUp from '@/features/Login/SignUp';
-import { useNavigate } from 'react-router-dom';
-import { useUserStore } from '@/store';
 
 export default function Login() {
   const [isLogin, setIsLogin] = useState(true);
@@ -12,7 +12,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   const [error, onSigninSuccess, onSigninFailure] = useUserStore((state) => [
-    state.initialState.error,
+    state.user.error,
     state.onSigninSuccess,
     state.onSigninFailure,
   ]);

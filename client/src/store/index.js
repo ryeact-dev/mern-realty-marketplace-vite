@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-const initialState = {
+const user = {
   currentUser: null,
   error: null,
 };
@@ -9,18 +9,18 @@ const initialState = {
 export const useUserStore = create(
   persist(
     (set) => ({
-      initialState,
+      user,
       onSigninSuccess: (data) =>
         set(() => ({
-          initialState: {
+          user: {
             currentUser: data,
             error: null,
           },
         })),
       onSigninFailure: (errorMessage) =>
         set(() => ({
-          initialState: {
-            ...initialState,
+          user: {
+            ...user,
             error: errorMessage,
           },
         })),
