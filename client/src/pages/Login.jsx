@@ -4,14 +4,14 @@ import { signin, signup } from '@/api/users.api';
 import SignIn from '@/features/Login/SignIn';
 import SignUp from '@/features/Login/SignUp';
 import { useNavigate } from 'react-router-dom';
-import { userStore } from '@/store';
+import { useUserStore } from '@/store';
 
 export default function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
 
-  const [error, onSigninSuccess, onSigninFailure] = userStore((state) => [
+  const [error, onSigninSuccess, onSigninFailure] = useUserStore((state) => [
     state.initialState.error,
     state.onSigninSuccess,
     state.onSigninFailure,
