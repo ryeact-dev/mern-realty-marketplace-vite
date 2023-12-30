@@ -1,22 +1,28 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { signup } from '@/api/users.api';
+import { signin, signup } from '@/api/users.api';
 import SignIn from '@/features/Login/SignIn';
 import SignUp from '@/features/Login/SignUp';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const onSignupMutation = useMutation({
-    mutationFn: signup,
+  const mutationFunction = isLogin ? signin : signup;
+
+  const onSubmitMutation = useMutation({
+    mutationFn: mutationFunction,
     onSuccess: (data) => {
       if (data.success === false) {
         setError(data.message);
         return;
       } else {
-        setIsLogin(true);
+        {
+          !isLogin ? setIsLogin(true) : navigate('/', { replace: true });
+        }
         setError(null);
       }
     },
@@ -24,14 +30,14 @@ export default function Login() {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    onSignupMutation.mutate(formData);
+    onSubmitMutation.mutate(formData);
   };
 
   return (
     <div className='p-3 max-w-lg mx-auto'>
       {!isLogin ? (
         <SignUp
-          isLoading={onSignupMutation.isPending}
+          isLoading={onSubmitMutation.isPending}
           setIsLogin={setIsLogin}
           formData={formData}
           setFormData={setFormData}
@@ -40,7 +46,7 @@ export default function Login() {
         />
       ) : (
         <SignIn
-          isLoading={onSignupMutation.isPending}
+          isLoading={onSubmitMutation.isPending}
           setIsLogin={setIsLogin}
           formData={formData}
           setFormData={setFormData}

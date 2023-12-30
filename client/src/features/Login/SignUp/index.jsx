@@ -27,6 +27,7 @@ export default function SignUp({
           className='border p-3 rounded-lg'
           id='username'
           onChange={onHandleChange}
+          required
         />
         <input
           type='email'
@@ -34,6 +35,7 @@ export default function SignUp({
           className='border p-3 rounded-lg'
           id='email'
           onChange={onHandleChange}
+          required
         />
         <input
           type='password'
@@ -41,6 +43,7 @@ export default function SignUp({
           className='border p-3 rounded-lg'
           id='password'
           onChange={onHandleChange}
+          required
         />
         <button
           disabled={isLoading}
