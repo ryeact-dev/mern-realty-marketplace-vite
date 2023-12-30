@@ -4,12 +4,18 @@ import { signin, signup } from '@/api/users.api';
 import SignIn from '@/features/Login/SignIn';
 import SignUp from '@/features/Login/SignUp';
 import { useNavigate } from 'react-router-dom';
+import { userStore } from '@/store';
 
 export default function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const [error, onSigninSuccess, onSigninFailure] = userStore((state) => [
+    state.initialState.error,
+    state.onSigninSuccess,
+    state.onSigninFailure,
+  ]);
 
   const mutationFunction = isLogin ? signin : signup;
 
@@ -17,13 +23,13 @@ export default function Login() {
     mutationFn: mutationFunction,
     onSuccess: (data) => {
       if (data.success === false) {
-        setError(data.message);
+        onSigninFailure(data.message);
         return;
       } else {
         {
           !isLogin ? setIsLogin(true) : navigate('/', { replace: true });
         }
-        setError(null);
+        onSigninSuccess(data);
       }
     },
   });
