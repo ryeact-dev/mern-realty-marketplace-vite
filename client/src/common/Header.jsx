@@ -33,7 +33,10 @@ export default function Header() {
           >
             About
           </NavLink>
-          <NavLink className='text-slate-700 hover:cursor-pointer'>
+          <NavLink
+            to={`/login`}
+            className='text-slate-700 hover:cursor-pointer'
+          >
             Login
           </NavLink>
         </div>
