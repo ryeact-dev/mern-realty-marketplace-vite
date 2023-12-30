@@ -23,3 +23,16 @@ export async function signup(formData) {
   const data = await res.json();
   return data;
 }
+
+export async function googleAuth(formData) {
+  const res = await fetch('/api/auth/google', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(formData),
+  });
+
+  const data = await res.json();
+  return data;
+}

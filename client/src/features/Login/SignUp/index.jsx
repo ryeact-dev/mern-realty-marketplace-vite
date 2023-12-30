@@ -1,3 +1,5 @@
+import OAuth from '@/common/OAuth';
+
 export default function SignUp({
   setIsLogin,
   setFormData,
@@ -51,6 +53,7 @@ export default function SignUp({
         >
           {isLoading ? 'Loading...' : 'Sign Up'}
         </button>
+        <OAuth />
         <div className='flex justify-center items-center gap-1 mt-4'>
           <p>Already have an account? </p>
           <button

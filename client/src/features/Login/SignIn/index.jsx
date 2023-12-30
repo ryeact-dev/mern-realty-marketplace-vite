@@ -1,3 +1,5 @@
+import OAuth from '@/common/OAuth';
+
 export default function SignIn({
   setIsLogin,
   setFormData,
@@ -43,6 +45,7 @@ export default function SignIn({
         >
           {isLoading ? 'Loading...' : 'Login'}
         </button>
+        <OAuth />
         <div className='flex justify-center items-center gap-1 mt-4'>
           <p>Dont have an account? </p>
           <button
