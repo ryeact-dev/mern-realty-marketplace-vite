@@ -11,8 +11,7 @@ import { useMutation } from '@tanstack/react-query';
 import { deleteUser, logoutUser, updateUser } from '@/api/users.api';
 import ProfileForm from './components/ProfileForm';
 
-export default function Profile() {
-  const { currentUser, error } = useUserStore((state) => state.user);
+export default function Profile({ currentUser, error }) {
   const [updateUserSuccess, updateUserFailure, onDeleteUser] = useUserStore(
     (state) => [state.onSuccess, state.onFailure, state.onDeleteUser]
   );

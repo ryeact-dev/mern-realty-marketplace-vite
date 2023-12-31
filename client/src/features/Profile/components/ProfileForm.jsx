@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function ProfileForm({
   fileRef,
   currentUser,
@@ -98,6 +100,12 @@ export default function ProfileForm({
         >
           {updateUserMutation.isLoading ? 'Updating...' : 'Update'}
         </button>
+        <Link
+          to='/create-listing'
+          className='bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95'
+        >
+          Create List
+        </Link>
       </form>
       <div className='flex justify-between mt-5'>
         <span
