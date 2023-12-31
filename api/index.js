@@ -1,6 +1,7 @@
 import expres from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 dotenv.config();
 
 // Routes
@@ -20,6 +21,7 @@ mongoose
 const app = expres();
 
 app.use(expres.json());
+app.use(cookieParser());
 
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
