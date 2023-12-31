@@ -78,3 +78,12 @@ export async function googleAuth(req, res, next) {
     next(err);
   }
 }
+
+export async function logout(req, res, next) {
+  try {
+    res.clearCookie('token');
+    res.status(200).json({ message: 'User logged out successfully' });
+  } catch (err) {
+    next(err);
+  }
+}

@@ -58,3 +58,12 @@ export async function deleteUser(id) {
   const data = await res.json();
   return data;
 }
+
+export async function logoutUser() {
+  const res = await fetch(`/api/auth/logout`, {
+    method: 'GET',
+  });
+
+  const data = await res.json();
+  return data;
+}
