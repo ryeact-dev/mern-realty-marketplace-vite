@@ -125,13 +125,13 @@ export default function CreateListing() {
           </p>
           <div className='flex gap-4'>
             <input
-              className='p-3 border border-gray-300 rounded w-full'
+              className='p-3 border border-gray-300 rounded w-full hover:cursor-pointer'
               type='file'
               id='images'
               accept='image/*'
               multiple
             />
-            <button className='p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80'>
+            <button className='p-3 text-green-700 border border-green-700 rounded uppercase hover:bg-green-700 hover:text-white disabled:opacity-80'>
               Upload
             </button>
           </div>
