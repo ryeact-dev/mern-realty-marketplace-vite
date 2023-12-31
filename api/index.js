@@ -7,6 +7,7 @@ dotenv.config();
 // Routes
 import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
+import listingRouter from './routes/listing.route.js';
 
 // Database connection
 mongoose
@@ -25,6 +26,7 @@ app.use(cookieParser());
 
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/listing', listingRouter);
 
 // Error handler
 app.use((err, req, res, next) => {
