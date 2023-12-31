@@ -7,18 +7,53 @@ import {
   getDownloadURL,
   getStorage,
 } from 'firebase/storage';
+import { useMutation } from '@tanstack/react-query';
+import { updateUser } from '@/api/users.api';
 
 export default function Profile() {
-  const { currentUser } = useUserStore((state) => state.user);
+  const { currentUser, error } = useUserStore((state) => state.user);
+  const [updateUserSuccess, updateUserFailure] = useUserStore((state) => [
+    state.onSuccess,
+    state.onFailure,
+  ]);
   const [image, setImage] = useState(undefined);
   const [uploadPercentage, setUploadPercentage] = useState(0);
   const [uploadError, setUploadError] = useState(false);
   const [formData, setFormData] = useState({});
+  const [isUpdateSuccess, setIsUpdateSuccess] = useState(false);
   const fileRef = useRef(null);
 
-  const onImageChange = (evt) => {
+  const updateUserMutation = useMutation({
+    mutationFn: updateUser,
+    onError: (data) => updateUserFailure(data.message),
+    onSuccess: (data) => {
+      if (data.success === false) {
+        updateUserFailure(data.message);
+        return;
+      }
+      updateUserSuccess(data);
+      setIsUpdateSuccess(true);
+    },
+  });
+
+  const onImageChangeHandler = (evt) => {
     const file = evt.target.files[0];
     setImage(file);
+  };
+
+  const onInputChangeHandler = (evt) => {
+    const value = evt.target.value;
+    setFormData({ ...formData, [evt.target.id]: value });
+  };
+
+  const onSubmitHandler = (evt) => {
+    evt.preventDefault();
+    const userData = {
+      ...formData,
+      id: currentUser._id,
+    };
+
+    updateUserMutation.mutate(userData);
   };
 
   // Handle the firebase upload
@@ -59,9 +94,9 @@ export default function Profile() {
   return (
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className='text-3xl font-semibold text-center my-7'>Profile</h1>
-      <form className='flex flex-col gap-4'>
+      <form onSubmit={onSubmitHandler} className='flex flex-col gap-4'>
         <input
-          onChange={onImageChange}
+          onChange={onImageChangeHandler}
           type='file'
           ref={fileRef}
           accept='image/*'
@@ -89,21 +124,29 @@ export default function Profile() {
           placeholder='username'
           className='border p-3 rounded-lg'
           id='username'
+          defaultValue={currentUser.username}
+          onChange={onInputChangeHandler}
         />
         <input
           type='email'
           placeholder='email'
           className='border p-3 rounded-lg'
           id='email'
+          defaultValue={currentUser.email}
+          onChange={onInputChangeHandler}
         />
         <input
           type='password'
           placeholder='password'
           className='border p-3 rounded-lg'
           id='password'
+          onChange={onInputChangeHandler}
         />
-        <button className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'>
-          Update
+        <button
+          disabled={updateUserMutation.isLoading}
+          className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'
+        >
+          {updateUserMutation.isLoading ? 'Updating...' : 'Update'}
         </button>
       </form>
       <div className='flex justify-between mt-5'>
@@ -114,6 +157,10 @@ export default function Profile() {
           Logout
         </span>
       </div>
+      <p className='text-red-700 text-center mt-5'> {error ? error : ''}</p>
+      <p className='text-green-700 text-center mt-5'>
+        {isUpdateSuccess ? 'Profile successfully updated!' : ''}
+      </p>
     </div>
   );
 }

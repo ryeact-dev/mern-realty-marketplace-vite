@@ -11,25 +11,26 @@ export default function Login() {
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
 
-  const [error, onSigninSuccess, onSigninFailure] = useUserStore((state) => [
+  const [error, onLoginSucess, onLoginFailure] = useUserStore((state) => [
     state.user.error,
-    state.onSigninSuccess,
-    state.onSigninFailure,
+    state.onSuccess,
+    state.onFailure,
   ]);
 
   const mutationFunction = isLogin ? signin : signup;
 
   const onSubmitMutation = useMutation({
     mutationFn: mutationFunction,
+    onError: (data) => onLoginFailure(data.message),
     onSuccess: (data) => {
       if (data.success === false) {
-        onSigninFailure(data.message);
+        onLoginFailure(data.message);
         return;
       } else {
+        onLoginSucess(data);
         {
-          !isLogin ? setIsLogin(true) : navigate('/', { replace: true });
+          isLogin ? setIsLogin(true) : navigate('/', { replace: true });
         }
-        onSigninSuccess(data);
       }
     },
   });

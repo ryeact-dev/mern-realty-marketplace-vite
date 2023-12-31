@@ -10,14 +10,14 @@ export const useUserStore = create(
   persist(
     (set) => ({
       user,
-      onSigninSuccess: (data) =>
+      onSuccess: (data) =>
         set(() => ({
           user: {
             currentUser: data,
             error: null,
           },
         })),
-      onSigninFailure: (errorMessage) =>
+      onFailure: (errorMessage) =>
         set(() => ({
           user: {
             ...user,

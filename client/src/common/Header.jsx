@@ -35,7 +35,7 @@ export default function Header() {
             </li>
           </NavLink>
 
-          <NavLink to={`/login`}>
+          <NavLink to={currentUser ? `/profile` : `/login`}>
             {currentUser ? (
               <img
                 src={currentUser.avatar}

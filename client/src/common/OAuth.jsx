@@ -6,7 +6,7 @@ import { useUserStore } from '@/store';
 import { useNavigate } from 'react-router-dom';
 
 export default function OAuth() {
-  const onSigninSuccess = useUserStore((state) => state.onSigninSuccess);
+  const onSigninSuccess = useUserStore((state) => state.onSuccess);
   const navigate = useNavigate();
 
   const googleAuthMutation = useMutation({
