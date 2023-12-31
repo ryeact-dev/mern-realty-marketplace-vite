@@ -8,14 +8,13 @@ import {
   getStorage,
 } from 'firebase/storage';
 import { useMutation } from '@tanstack/react-query';
-import { updateUser } from '@/api/users.api';
+import { deleteUser, updateUser } from '@/api/users.api';
 
 export default function Profile() {
   const { currentUser, error } = useUserStore((state) => state.user);
-  const [updateUserSuccess, updateUserFailure] = useUserStore((state) => [
-    state.onSuccess,
-    state.onFailure,
-  ]);
+  const [updateUserSuccess, updateUserFailure, onDeleteUser] = useUserStore(
+    (state) => [state.onSuccess, state.onFailure, state.onDeleteUser]
+  );
   const [image, setImage] = useState(undefined);
   const [uploadPercentage, setUploadPercentage] = useState(0);
   const [uploadError, setUploadError] = useState(false);
@@ -33,6 +32,18 @@ export default function Profile() {
       }
       updateUserSuccess(data);
       setIsUpdateSuccess(true);
+    },
+  });
+
+  const deleteUserMutation = useMutation({
+    mutationFn: deleteUser,
+    onError: (data) => updateUserFailure(data.message),
+    onSuccess: (data) => {
+      if (data.success === false) {
+        updateUserFailure(data.message);
+        return;
+      }
+      onDeleteUser();
     },
   });
 
@@ -54,6 +65,11 @@ export default function Profile() {
     };
 
     updateUserMutation.mutate(userData);
+  };
+
+  const onDeleteUserHandler = (evt) => {
+    evt.preventDefault();
+    deleteUserMutation.mutate(currentUser._id);
   };
 
   // Handle the firebase upload
@@ -150,7 +166,10 @@ export default function Profile() {
         </button>
       </form>
       <div className='flex justify-between mt-5'>
-        <span className='text-red-700 cursor-pointer hover:font-medium'>
+        <span
+          onClick={onDeleteUserHandler}
+          className='text-red-700 cursor-pointer hover:font-medium'
+        >
           Delete account
         </span>
         <span className='text-red-700 cursor-pointer hover:font-medium'>

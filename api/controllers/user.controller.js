@@ -37,3 +37,18 @@ export async function updateUserInfo(req, res, next) {
     next(err);
   }
 }
+
+export async function deleteUser(req, res, next) {
+  const userId = req.params.id;
+
+  if (req.user.id !== userId)
+    return next(errorHandler(401, 'You can only delete your own account'));
+
+  try {
+    await User.findByIdAndDelete(userId);
+    res.clearCookie('token');
+    res.status(200).json({ message: 'User has been deleted' });
+  } catch (err) {
+    next(err);
+  }
+}

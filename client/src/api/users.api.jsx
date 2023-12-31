@@ -49,3 +49,12 @@ export async function updateUser(formData) {
   const data = await res.json();
   return data;
 }
+
+export async function deleteUser(id) {
+  const res = await fetch(`/api/user/delete/${id}`, {
+    method: 'DELETE',
+  });
+
+  const data = await res.json();
+  return data;
+}

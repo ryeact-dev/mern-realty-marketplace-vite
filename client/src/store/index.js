@@ -24,6 +24,13 @@ export const useUserStore = create(
             error: errorMessage,
           },
         })),
+      onDeleteUser: () =>
+        set(() => ({
+          user: {
+            currentUser: null,
+            error: null,
+          },
+        })),
     }),
     {
       name: 'user__info', // name of the item in the storage (must be unique)
