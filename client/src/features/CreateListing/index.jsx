@@ -1,23 +1,26 @@
 import { useState } from 'react';
 import { app } from '@/firebase';
 import {
+  deleteObject,
   getDownloadURL,
   getStorage,
   ref,
   uploadBytesResumable,
 } from 'firebase/storage';
-import { useUserStore } from '@/store';
+import { useErrorStore } from '@/store';
 import ListingImages from './components/ListingImages';
+import ListingInfo from './components/ListingInfo';
 
 export default function CreateListing() {
-  const { error } = useUserStore((state) => state.user);
-  const setOnError = useUserStore((state) => state.setOnError);
+  const [error, setOnError] = useErrorStore((state) => [
+    state.error,
+    state.setOnError,
+  ]);
   const [formData, setFormData] = useState({
     imgUrls: [],
   });
 
-  console.log(formData);
-
+  // Upload image in the list
   const onImagesChangeHandler = (evt) => {
     const files = evt.target.files;
     const imgUrlsArray = Array.from(files);
@@ -27,27 +30,27 @@ export default function CreateListing() {
     });
   };
 
-  const onSubmitHandler = (evt) => {
-    evt.preventDefault();
-    const { imgUrls } = formData;
-    if (imgUrls.length === 0 && imgUrls.length < 3) {
-      setOnError('Please upload at least 3 images');
-      return;
-    }
+  // Remove image in the list
+  const onRemoveImgHandler = (file) => {
+    if (file.toString().includes('https://')) {
+      const storage = getStorage(app);
+      const storageRef = ref(storage, file);
 
-    if (imgUrls.length > 6) {
-      setOnError('Please upload at most 6 images');
-      return;
+      deleteObject(storageRef)
+        .then(() => {
+          const { imgUrls } = formData;
+          const newArray = [...imgUrls.filter((photo) => photo !== file)];
+          setFormData({ ...formData, imgUrls: newArray });
+          console.log('File deleted successfully');
+        })
+        .catch((err) => {
+          setOnError(err);
+        });
+    } else {
+      const { imgUrls } = formData;
+      const newArray = [...imgUrls.filter((photo) => photo !== file)];
+      setFormData({ ...formData, imgUrls: newArray });
     }
-
-    const promises = [];
-
-    for (let i = 0; i < imgUrls.length; i++) {
-      promises.push(storeImage(imgUrls[i]));
-    }
-    Promise.all(promises).then((urls) =>
-      setFormData({ ...formData, imgUrls: [...formData.imgUrls, ...urls] })
-    );
   };
 
   const storeImage = async (image) => {
@@ -73,7 +76,40 @@ export default function CreateListing() {
     });
   };
 
-  console.log('error', error);
+  // Submit Data Function
+  const onSubmitHandler = (evt) => {
+    evt.preventDefault();
+
+    const { imgUrls } = formData;
+    const promises = [];
+
+    const HttpsImgs = imgUrls.filter((url) =>
+      url.toString().includes('https://')
+    );
+    const isAllImgsAreHttps = imgUrls.every((url) =>
+      url.toString().includes('https://')
+    );
+
+    if (isAllImgsAreHttps) return; // Return false if there is a non-https in the array
+
+    if (imgUrls.length === 0 || imgUrls.length < 3) {
+      setOnError('Please upload at least 3 images');
+      return;
+    }
+
+    if (imgUrls.length > 6) {
+      setOnError('Please upload at most 6 images');
+      return;
+    }
+
+    for (let i = 0; i < imgUrls.length; i++) {
+      if (!imgUrls[i].toString().includes('https://'))
+        promises.push(storeImage(imgUrls[i]));
+    }
+    Promise.all(promises).then((urls) => {
+      setFormData({ ...formData, imgUrls: [...HttpsImgs, ...urls] });
+    });
+  };
 
   return (
     <main className='p-3 max-w-4xl mx-auto'>
@@ -82,115 +118,7 @@ export default function CreateListing() {
       </h1>
       <form className='flex flex-col sm:flex-row gap-4'>
         <section className='flex flex-col gap-4 flex-1'>
-          <input
-            type='text'
-            id='name'
-            placeholder='Name'
-            maxLength='62'
-            minLength='10'
-            required
-            className='border p-3 rounded-lg'
-          />
-          <textarea
-            type='text'
-            id='description'
-            placeholder='Description'
-            required
-            className='border p-3 rounded-lg'
-          />
-          <input
-            type='text'
-            id='address'
-            placeholder='Address'
-            required
-            className='border p-3 rounded-lg'
-          />
-          <article className='flex gap-6 flex-wrap'>
-            <div className='flex gap-2'>
-              <input type='checkbox' id='sale' className='w-5 cursor-pointer' />
-              <span>Sell</span>
-            </div>
-            <div className='flex gap-2'>
-              <input type='checkbox' id='rent' className='w-5 cursor-pointer' />
-              <span>Rent</span>
-            </div>
-            <div className='flex gap-2'>
-              <input
-                type='checkbox'
-                id='parking'
-                className='w-5 cursor-pointer'
-              />
-              <span>Parking Spot</span>
-            </div>
-            <div className='flex gap-2'>
-              <input
-                type='checkbox'
-                id='furnished'
-                className='w-5 cursor-pointer'
-              />
-              <span>Furnished</span>
-            </div>
-            <div className='flex gap-2'>
-              <input
-                type='checkbox'
-                id='offer'
-                className='w-5 cursor-pointer'
-              />
-              <span>Offer</span>
-            </div>
-          </article>
-          <article className='flex flex-wrap gap-6'>
-            <div className='flex items-center gap-2'>
-              <input
-                type='number'
-                id='bedrooms'
-                min='1'
-                max='10'
-                required
-                className='p-3 border border-gray-300 rounded-lg'
-              />
-              <span>Beds</span>
-            </div>
-            <div className='flex items-center gap-2'>
-              <input
-                type='number'
-                id='bathrooms'
-                min='1'
-                max='10'
-                required
-                className='p-3 border border-gray-300 rounded-lg'
-              />
-              <span>Baths</span>
-            </div>
-            <div className='flex items-center gap-2'>
-              <input
-                type='number'
-                id='regularPrice'
-                min='1'
-                max='10'
-                required
-                className='p-3 border border-gray-300 rounded-lg'
-              />
-              <div className='flex flex-col items-center'>
-                <p>Regular Price</p>
-                <span className='text-xs'>($ / month)</span>
-              </div>
-            </div>
-            <div className='flex items-center gap-2'>
-              <input
-                type='number'
-                id='discountPrice'
-                min='1'
-                max='10'
-                required
-                className='p-3 border border-gray-300 rounded-lg'
-              />
-              <div className='flex flex-col items-center'>
-                <p>Discounted Price</p>
-                <span className='text-xs'>($ / month)</span>
-              </div>
-            </div>
-          </article>
+          <ListingInfo />
         </section>
         {/* Images Upload */}
         <section className='flex flex-col gap-4 flex-1'>
@@ -205,6 +133,7 @@ export default function CreateListing() {
               formData={formData}
               setFormData={setFormData}
               onImagesChangeHandler={onImagesChangeHandler}
+              onRemoveImgHandler={onRemoveImgHandler}
             />
           </div>
 

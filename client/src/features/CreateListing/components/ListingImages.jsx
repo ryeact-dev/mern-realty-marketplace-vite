@@ -1,10 +1,11 @@
 import Image from '@/common/Image';
-import { FaRegStar, FaStar, FaTrash, FaUpload } from 'react-icons/fa';
+import { FaRegImage, FaRegStar, FaStar, FaTrash } from 'react-icons/fa';
 
 export default function ListingImages({
   formData,
   setFormData,
   onImagesChangeHandler,
+  onRemoveImgHandler,
 }) {
   const { imgUrls } = formData;
 
@@ -13,11 +14,6 @@ export default function ListingImages({
       filename,
       ...imgUrls.filter((photo) => photo !== filename),
     ];
-    setFormData({ ...formData, imgUrls: newArray });
-  };
-
-  const onRemoveImgHandler = (filename) => {
-    const newArray = [...imgUrls.filter((photo) => photo !== filename)];
     setFormData({ ...formData, imgUrls: newArray });
   };
 
@@ -58,8 +54,8 @@ export default function ListingImages({
             multiple
             hidden
           />
-          <FaUpload className='h-4 w-4 md:h-8 md:w-8' />
-          <p className='text-base font-medium'>Add Photo</p>
+          <FaRegImage className='h-4 w-4 md:h-10 md:w-10' />
+          <p className='text-base font-medium'>Add Image</p>
         </label>
       )}
     </>
