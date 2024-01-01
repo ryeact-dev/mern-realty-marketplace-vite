@@ -10,6 +10,7 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { deleteUser, logoutUser, updateUser } from '@/api/users.api';
 import ProfileForm from './components/ProfileForm';
+import ShowListings from './components/ShowListings';
 
 export default function Profile({ currentUser }) {
   const [error, setOnError] = useErrorStore((state) => [
@@ -29,7 +30,7 @@ export default function Profile({ currentUser }) {
 
   const updateUserMutation = useMutation({
     mutationFn: updateUser,
-    onError: (data) => setOnError(data.message),
+    onError: (data) => setOnError(data),
     onSuccess: (data) => {
       if (data.success === false) {
         setOnError(data.message);
@@ -42,7 +43,7 @@ export default function Profile({ currentUser }) {
 
   const deleteUserMutation = useMutation({
     mutationFn: deleteUser,
-    onError: (data) => setOnError(data.message),
+    onError: (data) => setOnError(data),
     onSuccess: (data) => {
       if (data.success === false) {
         setOnError(data.message);
@@ -54,7 +55,7 @@ export default function Profile({ currentUser }) {
 
   const logoutUserMutation = useMutation({
     mutationFn: logoutUser,
-    onError: (data) => setOnError(data.message),
+    onError: (data) => setOnError(data),
     onSuccess: (data) => {
       if (data.success === false) {
         setOnError(data.message);
@@ -115,6 +116,7 @@ export default function Profile({ currentUser }) {
         error={error}
         isUpdateSuccess={isUpdateSuccess}
       />
+      <ShowListings currentUser={currentUser} />
     </div>
   );
 }

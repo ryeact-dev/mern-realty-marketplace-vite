@@ -10,3 +10,9 @@ export async function saveListing(formData) {
   const data = await response.json();
   return data;
 }
+
+export async function getUserListings({ userId }) {
+  const res = await fetch(`/api/user/listings/${userId}`);
+  const data = await res.json();
+  return data;
+}
