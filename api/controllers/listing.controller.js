@@ -16,16 +16,39 @@ export async function deleteListing(req, res, next) {
   const listing = await Listing.findById(paramsId);
 
   if (!listing) {
-    return next(errorHandler(401, 'Listing not found'));
+    return next(errorHandler(404, 'Listing not found'));
   }
 
   if (userId !== listing.userRef) {
-    return next(errorHandler(401), 'You can only delete you own listings!');
+    return next(errorHandler(401, 'You can only delete you own listings!'));
   }
 
   try {
     await Listing.findByIdAndDelete(paramsId);
     return res.status(200).json({ message: 'Listing deleted successfully' });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function updateListing(req, res, next) {
+  const userId = req.user.id;
+  const paramsId = req.params.id;
+  const listing = await Listing.findById(paramsId);
+
+  if (!listing) {
+    return next(errorHandler(404, 'Listing not found'));
+  }
+
+  if (userId !== listing.userRef) {
+    return next(errorHandler(401, 'You can only update you own listings!'));
+  }
+
+  try {
+    const updatedListing = await Listing.findByIdAndUpdate(paramsId, req.body, {
+      new: true,
+    });
+    res.status(200).json(updatedListing);
   } catch (err) {
     next(err);
   }

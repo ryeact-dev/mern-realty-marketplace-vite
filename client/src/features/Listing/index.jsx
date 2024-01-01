@@ -11,10 +11,10 @@ import { useMutation } from '@tanstack/react-query';
 import { useErrorStore } from '@/store';
 import ListingImages from './components/ListingImages';
 import ListingInfo from './components/ListingInfo';
-import { saveListing } from '@/api/listing.api';
+import { saveUserListing, updateUserListing } from '@/api/listing.api';
 import { useNavigate } from 'react-router-dom';
 
-export default function CreateListing({ INITIAL_VALUES, currentUser }) {
+export default function Listing({ INITIAL_VALUES, currentUser, paramsId }) {
   const navigate = useNavigate();
   const [error, setOnError] = useErrorStore((state) => [
     state.error,
@@ -23,8 +23,10 @@ export default function CreateListing({ INITIAL_VALUES, currentUser }) {
   const [formData, setFormData] = useState(INITIAL_VALUES);
   const [isLoading, setIsLoading] = useState(false);
 
+  const mutationFn = paramsId ? updateUserListing : saveUserListing;
+
   const saveListingMutation = useMutation({
-    mutationFn: saveListing,
+    mutationFn: mutationFn,
     onError: (response) => setOnError(response),
     onSuccess: (data) => {
       setIsLoading(false);
@@ -119,7 +121,7 @@ export default function CreateListing({ INITIAL_VALUES, currentUser }) {
       return;
     }
 
-    if (isAllImgsAreHttps) return; // Return false if there is a non-https file in the array
+    if (isAllImgsAreHttps && !paramsId) return; // Return false if there is a non-https file in the array
 
     if (Number(regularPrice) <= Number(discountPrice)) {
       setOnError('Discount price must be lower than regular price');
@@ -134,12 +136,12 @@ export default function CreateListing({ INITIAL_VALUES, currentUser }) {
     try {
       setIsLoading(true);
       Promise.all(promises).then((urls) => {
-        const testFormData = {
+        const userFormData = {
           ...formData,
           userRef: currentUser._id,
           imgUrls: [...HttpsImgs, ...urls],
         };
-        saveListingMutation.mutate(testFormData);
+        saveListingMutation.mutate({ listingId: paramsId, userFormData });
       });
     } catch (err) {
       setOnError(err.message);
@@ -182,7 +184,11 @@ export default function CreateListing({ INITIAL_VALUES, currentUser }) {
             className='p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'
             disabled={isLoading}
           >
-            {isLoading ? 'Creating...' : 'Create Listing'}
+            {isLoading
+              ? 'Submitting...'
+              : paramsId
+              ? 'Update Listing'
+              : 'Create Listing'}
           </button>
           {error && <p className='text-red-700 text-sm'>{error}</p>}
         </section>

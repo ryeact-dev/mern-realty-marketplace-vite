@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteUserListing, getUserListings } from '@/api/listing.api';
 import Image from '@/common/Image';
@@ -10,6 +10,7 @@ export default function ShowListings({ currentUser, setOnError }) {
   const [showListings, setShowListings] = useState(false);
   const [fetchListings, setFetchListings] = useState(false);
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const {
     isLoading,
@@ -42,6 +43,12 @@ export default function ShowListings({ currentUser, setOnError }) {
 
   const onDeleteListingHandler = (listingId) => {
     onDeleteListingMutation.mutate(listingId);
+  };
+
+  const onEditListingHandler = (listingData) => {
+    navigate(`/update-listing/${listingData._id}`, {
+      state: listingData,
+    });
   };
 
   return (
@@ -84,6 +91,7 @@ export default function ShowListings({ currentUser, setOnError }) {
                 <div className='space-y-2'>
                   <button
                     type='button'
+                    onClick={() => onEditListingHandler(listing)}
                     className='bg-green-700 w-full px-4 py-1 rounded-md text-white hover:opacity-90 flex items-center justify-center gap-1'
                   >
                     <FaPenToSquare size={14} />

@@ -5,6 +5,7 @@ import Layout from '@/containers/Layout';
 import AboutPage from '@/pages/protected/About';
 import Login from '@/pages/Login';
 import CreateListingPage from '@/pages/protected/CreateListing';
+import UpdateListingPage from '@/pages/protected/UpdateListing';
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: '/create-listing',
         element: <CreateListingPage />,
+      },
+      {
+        path: '/update-listing/:id',
+        element: <UpdateListingPage />,
       },
     ],
   },
