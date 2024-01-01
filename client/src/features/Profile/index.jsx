@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useUserStore } from '@/store';
+import { useErrorStore, useUserStore } from '@/store';
 import { app } from '@/firebase';
 import {
   ref,
@@ -11,10 +11,15 @@ import { useMutation } from '@tanstack/react-query';
 import { deleteUser, logoutUser, updateUser } from '@/api/users.api';
 import ProfileForm from './components/ProfileForm';
 
-export default function Profile({ currentUser, error }) {
-  const [updateUserSuccess, updateUserFailure, onDeleteUser] = useUserStore(
-    (state) => [state.onSuccess, state.onFailure, state.onDeleteUser]
-  );
+export default function Profile({ currentUser }) {
+  const [error, setOnError] = useErrorStore((state) => [
+    state.error,
+    state.setOnError,
+  ]);
+  const [setOnUpdateSuccess, setOnDeleteUser] = useUserStore((state) => [
+    state.setOnLoginSuccess,
+    state.setOnDeleteUser,
+  ]);
   const [image, setImage] = useState(undefined);
   const [uploadPercentage, setUploadPercentage] = useState(0);
   const [uploadError, setUploadError] = useState(false);
@@ -24,38 +29,38 @@ export default function Profile({ currentUser, error }) {
 
   const updateUserMutation = useMutation({
     mutationFn: updateUser,
-    onError: (data) => updateUserFailure(data.message),
+    onError: (data) => setOnError(data.message),
     onSuccess: (data) => {
       if (data.success === false) {
-        updateUserFailure(data.message);
+        setOnError(data.message);
         return;
       }
-      updateUserSuccess(data);
+      setOnUpdateSuccess(data);
       setIsUpdateSuccess(true);
     },
   });
 
   const deleteUserMutation = useMutation({
     mutationFn: deleteUser,
-    onError: (data) => updateUserFailure(data.message),
+    onError: (data) => setOnError(data.message),
     onSuccess: (data) => {
       if (data.success === false) {
-        updateUserFailure(data.message);
+        setOnError(data.message);
         return;
       }
-      onDeleteUser();
+      setOnDeleteUser();
     },
   });
 
   const logoutUserMutation = useMutation({
     mutationFn: logoutUser,
-    onError: (data) => updateUserFailure(data.message),
+    onError: (data) => setOnError(data.message),
     onSuccess: (data) => {
       if (data.success === false) {
-        updateUserFailure(data.message);
+        setOnError(data.message);
         return;
       }
-      onDeleteUser();
+      setOnDeleteUser();
     },
   });
 

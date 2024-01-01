@@ -1,35 +1,18 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-const user = {
-  currentUser: null,
-  error: null,
-};
-
 export const useUserStore = create(
   persist(
     (set) => ({
-      user,
-      onSuccess: (data) =>
+      currentUser: null,
+      setOnLoginSuccess: (data) =>
         set(() => ({
-          user: {
-            currentUser: data,
-            error: null,
-          },
+          currentUser: data,
+          error: null,
         })),
-      onFailure: (errorMessage) =>
+      setsetOnDeleteUser: () =>
         set(() => ({
-          user: {
-            ...user,
-            error: errorMessage,
-          },
-        })),
-      onDeleteUser: () =>
-        set(() => ({
-          user: {
-            currentUser: null,
-            error: null,
-          },
+          currentUser: null,
         })),
     }),
     {
@@ -38,3 +21,11 @@ export const useUserStore = create(
     }
   )
 );
+
+export const useErrorStore = create((set) => ({
+  error: null,
+  setOnError: (errorMessage) =>
+    set(() => ({
+      error: errorMessage,
+    })),
+}));

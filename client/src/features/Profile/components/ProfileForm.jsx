@@ -24,7 +24,7 @@ export default function ProfileForm({
     setFormData({ ...formData, [evt.target.id]: value });
   };
 
-  const onDeleteUserHandler = (evt) => {
+  const setOnDeleteUserHandler = (evt) => {
     evt.preventDefault();
     deleteUserMutation.mutate(currentUser._id);
   };
@@ -109,7 +109,7 @@ export default function ProfileForm({
       </form>
       <div className='flex justify-between mt-5'>
         <span
-          onClick={onDeleteUserHandler}
+          onClick={setOnDeleteUserHandler}
           className='text-red-700 cursor-pointer hover:font-medium'
         >
           Delete account

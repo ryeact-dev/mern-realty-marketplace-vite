@@ -3,7 +3,7 @@ import { FaSearch } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 
 export default function Header() {
-  const { currentUser } = useUserStore((state) => state.user);
+  const currentUser = useUserStore((state) => state.currentUser);
 
   return (
     <header className='bg-slate-200 shadow-md'>

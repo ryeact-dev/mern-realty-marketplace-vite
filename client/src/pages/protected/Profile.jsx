@@ -3,10 +3,10 @@ import { useUserStore } from '@/store';
 import { Navigate } from 'react-router-dom';
 
 export default function ProfilePage() {
-  const { currentUser, error } = useUserStore((state) => state.user);
+  const currentUser = useUserStore((state) => state.currentUser);
 
   return currentUser ? (
-    <Profile currentUser={currentUser} error={error} />
+    <Profile currentUser={currentUser} />
   ) : (
     <Navigate to='/login' />
   );

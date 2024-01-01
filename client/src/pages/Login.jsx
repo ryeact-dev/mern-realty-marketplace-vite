@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { useUserStore } from '@/store';
+import { useErrorStore, useUserStore } from '@/store';
 import { signin, signup } from '@/api/users.api';
 import SignIn from '@/features/Login/SignIn';
 import SignUp from '@/features/Login/SignUp';
@@ -11,23 +11,24 @@ export default function Login() {
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
 
-  const [error, onLoginSucess, onLoginFailure] = useUserStore((state) => [
-    state.user.error,
-    state.onSuccess,
-    state.onFailure,
+  const [error, setOnLoginError] = useErrorStore((state) => [
+    state.error,
+    state.setOnError,
   ]);
+
+  const setOnLoginSuccess = useUserStore((state) => state.setOnLoginSuccess);
 
   const mutationFunction = isLogin ? signin : signup;
 
   const onSubmitMutation = useMutation({
     mutationFn: mutationFunction,
-    onError: (data) => onLoginFailure(data.message),
+    onError: (data) => setOnLoginError(data.message),
     onSuccess: (data) => {
       if (data.success === false) {
-        onLoginFailure(data.message);
+        setOnLoginError(data.message);
         return;
       } else {
-        onLoginSucess(data);
+        setOnLoginSuccess(data);
         {
           isLogin ? setIsLogin(true) : navigate('/', { replace: true });
         }
