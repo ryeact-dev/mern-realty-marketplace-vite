@@ -7,22 +7,46 @@ import {
   ref,
   uploadBytesResumable,
 } from 'firebase/storage';
+import { useMutation } from '@tanstack/react-query';
 import { useErrorStore } from '@/store';
 import ListingImages from './components/ListingImages';
 import ListingInfo from './components/ListingInfo';
+import { saveListing } from '@/api/listing.api';
+import { useNavigate } from 'react-router-dom';
 
-export default function CreateListing() {
+export default function CreateListing({ INITIAL_VALUES, currentUser }) {
+  const navigate = useNavigate();
   const [error, setOnError] = useErrorStore((state) => [
     state.error,
     state.setOnError,
   ]);
-  const [formData, setFormData] = useState({
-    imgUrls: [],
+  const [formData, setFormData] = useState(INITIAL_VALUES);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const saveListingMutation = useMutation({
+    mutationFn: saveListing,
+    onError: (response) => setOnError(response),
+    onSuccess: (data) => {
+      setIsLoading(false);
+      if (data.success === false) {
+        setOnError(data.message);
+        return;
+      }
+      setOnError(null);
+      navigate(`/listing/${data._id}`);
+    },
   });
 
   // Upload image in the list
   const onImagesChangeHandler = (evt) => {
     const files = evt.target.files;
+    const totalImgs = files.length + formData.imgUrls.length;
+
+    if (totalImgs > 6) {
+      setOnError('Please upload at most 6 images');
+      return;
+    }
+
     const imgUrlsArray = Array.from(files);
     setFormData({
       ...formData,
@@ -80,7 +104,7 @@ export default function CreateListing() {
   const onSubmitHandler = (evt) => {
     evt.preventDefault();
 
-    const { imgUrls } = formData;
+    const { imgUrls, regularPrice, discountPrice } = formData;
     const promises = [];
 
     const HttpsImgs = imgUrls.filter((url) =>
@@ -90,15 +114,15 @@ export default function CreateListing() {
       url.toString().includes('https://')
     );
 
-    if (isAllImgsAreHttps) return; // Return false if there is a non-https in the array
-
     if (imgUrls.length === 0 || imgUrls.length < 3) {
       setOnError('Please upload at least 3 images');
       return;
     }
 
-    if (imgUrls.length > 6) {
-      setOnError('Please upload at most 6 images');
+    if (isAllImgsAreHttps) return; // Return false if there is a non-https file in the array
+
+    if (Number(regularPrice) <= Number(discountPrice)) {
+      setOnError('Discount price must be lower than regular price');
       return;
     }
 
@@ -106,9 +130,22 @@ export default function CreateListing() {
       if (!imgUrls[i].toString().includes('https://'))
         promises.push(storeImage(imgUrls[i]));
     }
-    Promise.all(promises).then((urls) => {
-      setFormData({ ...formData, imgUrls: [...HttpsImgs, ...urls] });
-    });
+
+    try {
+      setIsLoading(true);
+      Promise.all(promises).then((urls) => {
+        const testFormData = {
+          ...formData,
+          userRef: currentUser._id,
+          imgUrls: [...HttpsImgs, ...urls],
+        };
+        saveListingMutation.mutate(testFormData);
+      });
+    } catch (err) {
+      setOnError(err.message);
+      setIsLoading(false);
+      return;
+    }
   };
 
   return (
@@ -116,9 +153,12 @@ export default function CreateListing() {
       <h1 className='text-3xl font-semibold text-center my-7'>
         Create a Listing
       </h1>
-      <form className='flex flex-col sm:flex-row gap-4'>
+      <form
+        onSubmit={onSubmitHandler}
+        className='flex flex-col sm:flex-row gap-4'
+      >
         <section className='flex flex-col gap-4 flex-1'>
-          <ListingInfo />
+          <ListingInfo formData={formData} setFormData={setFormData} />
         </section>
         {/* Images Upload */}
         <section className='flex flex-col gap-4 flex-1'>
@@ -138,12 +178,13 @@ export default function CreateListing() {
           </div>
 
           <button
-            type='button'
-            onClick={onSubmitHandler}
+            type='submit'
             className='p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'
+            disabled={isLoading}
           >
-            Create Listing
+            {isLoading ? 'Creating...' : 'Create Listing'}
           </button>
+          {error && <p className='text-red-700 text-sm'>{error}</p>}
         </section>
       </form>
     </main>
