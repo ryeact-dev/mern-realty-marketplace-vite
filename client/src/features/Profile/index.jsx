@@ -116,7 +116,7 @@ export default function Profile({ currentUser }) {
         error={error}
         isUpdateSuccess={isUpdateSuccess}
       />
-      <ShowListings currentUser={currentUser} />
+      <ShowListings currentUser={currentUser} setOnError={setOnError} />
     </div>
   );
 }
