@@ -35,7 +35,9 @@ export default function Listing({ INITIAL_VALUES, currentUser, paramsId }) {
         return;
       }
       setOnError(null);
-      navigate(`/listing/${data._id}`);
+      navigate(`/single-listing/${data._id}`, {
+        state: data,
+      });
     },
   });
 

@@ -30,7 +30,7 @@ export default function Profile({ currentUser }) {
 
   const updateUserMutation = useMutation({
     mutationFn: updateUser,
-    onError: (data) => setOnError(data),
+    onError: (data) => setOnError(data.message),
     onSuccess: (data) => {
       if (data.success === false) {
         setOnError(data.message);
@@ -43,7 +43,7 @@ export default function Profile({ currentUser }) {
 
   const deleteUserMutation = useMutation({
     mutationFn: deleteUser,
-    onError: (data) => setOnError(data),
+    onError: (data) => setOnError(data.message),
     onSuccess: (data) => {
       if (data.success === false) {
         setOnError(data.message);
@@ -55,7 +55,7 @@ export default function Profile({ currentUser }) {
 
   const logoutUserMutation = useMutation({
     mutationFn: logoutUser,
-    onError: (data) => setOnError(data),
+    onError: (data) => setOnError(data.message),
     onSuccess: (data) => {
       if (data.success === false) {
         setOnError(data.message);

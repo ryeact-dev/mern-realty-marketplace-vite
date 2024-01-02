@@ -10,7 +10,7 @@ export const useUserStore = create(
           currentUser: data,
           error: null,
         })),
-      setsetOnDeleteUser: () =>
+      setOnDeleteUser: () =>
         set(() => ({
           currentUser: null,
         })),

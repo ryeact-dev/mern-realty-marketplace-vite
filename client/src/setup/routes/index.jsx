@@ -6,6 +6,7 @@ import AboutPage from '@/pages/protected/About';
 import Login from '@/pages/Login';
 import CreateListingPage from '@/pages/protected/CreateListing';
 import UpdateListingPage from '@/pages/protected/UpdateListing';
+import SingleListingPage from '@/pages/protected/SingleListing';
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
       {
         path: '/update-listing/:id',
         element: <UpdateListingPage />,
+      },
+      {
+        path: '/single-listing/:id',
+        element: <SingleListingPage />,
       },
     ],
   },
