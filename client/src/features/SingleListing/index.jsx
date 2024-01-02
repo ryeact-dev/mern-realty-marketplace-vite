@@ -1,6 +1,6 @@
-import Image from '@/common/Image';
-import PhotoGallery from '@/common/PhotoGallery';
 import { useState } from 'react';
+import PhotoGallery from '@/common/PhotoGallery';
+import Image from '@/common/Image';
 import {
   FaBath,
   FaBed,
@@ -9,9 +9,11 @@ import {
   FaParking,
   FaRegWindowClose,
 } from 'react-icons/fa';
+import ContactLandlord from './ContactLandlord';
 
-export default function SingleListing({ listingData }) {
+export default function SingleListing({ listingData, currentUser }) {
   const [showAllPhotos, setShowAllPhotos] = useState(false);
+  const [contactLandlord, setContactLandlord] = useState(false);
 
   return (
     <section className='p-4'>
@@ -71,6 +73,17 @@ export default function SingleListing({ listingData }) {
             {listingData.furnished ? 'Furnished' : 'Unfurnished'}
           </li>
         </ul>
+        {currentUser &&
+          listingData.userRef !== currentUser._id &&
+          !contactLandlord && (
+            <button
+              onClick={() => setContactLandlord(true)}
+              className='my-4 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3 w-full'
+            >
+              Contact Landlord
+            </button>
+          )}
+        {contactLandlord && <ContactLandlord listingData={listingData} />}
       </article>
 
       {showAllPhotos && (

@@ -34,11 +34,11 @@ export const router = createBrowserRouter([
         element: <CreateListingPage />,
       },
       {
-        path: '/update-listing/:id',
+        path: '/update-listing/:listingId',
         element: <UpdateListingPage />,
       },
       {
-        path: '/single-listing/:id',
+        path: '/single-listing/:listingId',
         element: <SingleListingPage />,
       },
     ],

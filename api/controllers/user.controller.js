@@ -3,8 +3,19 @@ import Listing from '../models/listing.model.js';
 import User from '../models/user.model.js';
 import { errorHandler } from '../utils/error.js';
 
-export function test(req, res) {
-  res.json({ msg: 'Hello World!' });
+export async function getUser(req, res, next) {
+  const userId = req.params.id;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) return next(errorHandler(404, 'User not found'));
+
+    const { password, ...rest } = user._doc;
+    res.status(200).json(rest);
+  } catch (err) {
+    next(err);
+  }
 }
 
 export async function updateUserInfo(req, res, next) {

@@ -1,6 +1,16 @@
 import Listing from '../models/listing.model.js';
 import { errorHandler } from '../utils/error.js';
 
+export async function getSingleListing(req, res, next) {
+  const { listingId } = req.params;
+  try {
+    const listing = await Listing.findById(listingId);
+    return res.status(201).json(listing);
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function createListing(req, res, next) {
   try {
     const listing = await Listing.create(req.body);

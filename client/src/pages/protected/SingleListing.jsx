@@ -1,8 +1,23 @@
+import { useUserStore } from '@/store';
+import { useQuery } from '@tanstack/react-query';
 import SingleListing from '@/features/SingleListing';
-import { useLocation } from 'react-router-dom';
+import { getSingleListing } from '@/api/listing.api';
+import { Navigate, useParams } from 'react-router-dom';
 
 export default function SingleListingPage() {
-  const listingData = useLocation().state;
+  const { listingId } = useParams();
+  const currentUser = useUserStore((state) => state.currentUser);
 
-  return <SingleListing listingData={listingData} />;
+  const { isLoading, data: listingData } = useQuery({
+    queryKey: ['single-listing', listingId],
+    queryFn: () => getSingleListing(listingId),
+  });
+
+  return isLoading ? (
+    <p>Loading Data...</p>
+  ) : listingData?.success === false || !listingData ? (
+    <Navigate to='/' />
+  ) : (
+    <SingleListing listingData={listingData} currentUser={currentUser} />
+  );
 }

@@ -39,3 +39,9 @@ export async function updateUserListing({ listingId, userFormData }) {
   const data = await res.json();
   return data;
 }
+
+export async function getSingleListing(listingId) {
+  const res = await fetch(`/api/listing/single/${listingId}`);
+  const data = await res.json();
+  return data;
+}

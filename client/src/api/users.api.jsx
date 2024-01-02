@@ -60,10 +60,13 @@ export async function deleteUser(id) {
 }
 
 export async function logoutUser() {
-  const res = await fetch(`/api/auth/logout`, {
-    method: 'GET',
-  });
+  const res = await fetch(`/api/auth/logout`);
+  const data = await res.json();
+  return data;
+}
 
+export async function getUser(userId) {
+  const res = await fetch(`/api/user/${userId}`);
   const data = await res.json();
   return data;
 }

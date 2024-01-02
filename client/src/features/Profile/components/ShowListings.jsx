@@ -51,12 +51,6 @@ export default function ShowListings({ currentUser, setOnError }) {
     });
   };
 
-  const onOpenSingleListingHandler = (listingData) => {
-    navigate(`/single-listing/${listingData._id}`, {
-      state: listingData,
-    });
-  };
-
   return (
     <article className='w-full'>
       <div className='flex justify-center'>
@@ -77,8 +71,8 @@ export default function ShowListings({ currentUser, setOnError }) {
                 key={listing._id}
                 className='flex justify-between items-center border-2 rounded-lg my-2 p-4'
               >
-                <button
-                  onClick={() => onOpenSingleListingHandler(listing)}
+                <Link
+                  to={`/single-listing/${listing._id}`}
                   className='capitalize flex items-start gap-2 hover:text-green-700'
                 >
                   <Image
@@ -92,7 +86,7 @@ export default function ShowListings({ currentUser, setOnError }) {
                       {listing.description}
                     </p>
                   </div>
-                </button>
+                </Link>
 
                 <div className='space-y-2'>
                   <button
