@@ -63,3 +63,50 @@ export async function updateListing(req, res, next) {
     next(err);
   }
 }
+
+export async function getListings(req, res, next) {
+  let {
+    limit = 9,
+    startIndex = 0,
+    searchTerm = '',
+    sort = 'createAt',
+    order = 'desc',
+    offer,
+    furnished,
+    parking,
+    type,
+  } = req.query;
+
+  if (offer === undefined || offer === 'false') {
+    offer = { $in: [false, true] };
+  }
+
+  if (furnished === undefined || furnished === 'false') {
+    furnished = { $in: [false, true] };
+  }
+
+  if (parking === undefined || parking === 'false') {
+    parking = { $in: [false, true] };
+  }
+
+  if (type === undefined || type === 'all') {
+    type = { $in: ['sale', 'rent'] };
+  }
+
+  try {
+    const listings = await Listing.find({
+      title: { $regex: searchTerm, $options: 'i' },
+      offer,
+      furnished,
+      parking,
+      type,
+    })
+      .sort({ [sort]: order })
+      .limit(limit)
+      .skip(startIndex);
+
+    return res.status(201).json(listings);
+  } catch (err) {
+    next(err);
+  }
+}

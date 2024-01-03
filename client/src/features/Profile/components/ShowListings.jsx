@@ -69,23 +69,25 @@ export default function ShowListings({ currentUser, setOnError }) {
             data.map((listing) => (
               <div
                 key={listing._id}
-                className='flex justify-between items-center border-2 rounded-lg my-2 p-4'
+                className='flex justify-between gap-2 items-center border-2 rounded-lg my-2 p-4'
               >
                 <Link
                   to={`/single-listing/${listing._id}`}
-                  className='capitalize flex items-start gap-2 hover:text-green-700'
+                  className='capitalize flex items-start gap-1 hover:text-green-700'
                 >
-                  <Image
-                    src={listing.imgUrls[0]}
-                    alt='listing-cover'
-                    className='h-24 w-24 object-cover rounded-md'
-                  />
-                  <div className='font-medium'>
+                  <figure className='w-full'>
+                    <Image
+                      src={listing.imgUrls[0]}
+                      alt='listing-cover'
+                      className='h-28 w-28 object-cover rounded-md'
+                    />
+                  </figure>
+                  <figcaption className='font-medium'>
                     <p className=''>{listing.title}</p>
-                    <p className='font-normal text-sm opacity-80 text-slate-700'>
-                      {listing.description}
+                    <p className='font-normal text-xs opacity-80 text-slate-700 leading-5'>
+                      {listing.description.slice(0, 100)}...
                     </p>
-                  </div>
+                  </figcaption>
                 </Link>
 
                 <div className='space-y-2'>
