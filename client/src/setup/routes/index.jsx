@@ -7,6 +7,7 @@ import Login from '@/pages/Login';
 import CreateListingPage from '@/pages/protected/CreateListing';
 import UpdateListingPage from '@/pages/protected/UpdateListing';
 import SingleListingPage from '@/pages/protected/SingleListing';
+import SearchPage from '@/pages/Search';
 
 export const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login />,
+      },
+      {
+        path: '/search',
+        element: <SearchPage />,
       },
       {
         path: '/create-listing',
