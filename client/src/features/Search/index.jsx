@@ -1,3 +1,5 @@
+import ListingsData from './ListingsData';
+
 export default function Search({
   onSubmitHandler,
   sidebarData,
@@ -6,7 +8,7 @@ export default function Search({
   listings,
 }) {
   return (
-    <section className='flex flex-col md:flex-row'>
+    <section className='flex flex-col md:flex-row mx-auto max-w-[1440px]'>
       <aside className='p-7 border-b-2 md:border-r-2 md:min-h-screen'>
         <form onSubmit={onSubmitHandler} className='flex flex-col gap-8'>
           <div className='flex items-center gap-2'>
@@ -107,11 +109,7 @@ export default function Search({
           </button>
         </form>
       </aside>
-      <article>
-        <h1 className='text-3xl font-semibold border-b p-3 text-slate-700 mt-5'>
-          Listing Results:
-        </h1>
-      </article>
+      <ListingsData listings={listings} isLoading={isLoading} />
     </section>
   );
 }

@@ -1,7 +1,7 @@
 import { getSearchListings } from '@/api/listing.api';
 import Search from '@/features/Search';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function SearchPage() {
@@ -19,9 +19,6 @@ export default function SearchPage() {
     sort: 'createdAt',
     order: 'desc',
   });
-
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [listings, setListings] = useState(null);
 
   const onChangeHandler = (evt) => {
     const inputId = evt.target.id;
@@ -68,21 +65,10 @@ export default function SearchPage() {
     navigate(`/search?${searchQuery}`);
   };
 
-  const { isLoading, data: listings } = useQuery({
+  const { isLoading, data: listings = [] } = useQuery({
     queryKey: ['listings', searchParams],
     queryFn: () => getSearchListings(searchParams),
   });
-
-  // useEffect(() => {
-  //   const fetchListings = async () => {
-  //     setIsLoading(true);
-  //     const searchQuery = urlParams.toString();
-  //     const listings = await getSearchListings(searchQuery);
-  //     setListings(listings);
-  //     setIsLoading(false);
-  //   };
-  //   fetchListings();
-  // }, [location.search]);
 
   return (
     <Search

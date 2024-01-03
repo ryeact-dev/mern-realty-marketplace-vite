@@ -21,8 +21,8 @@ export default function SingleListing({ listingData, currentUser }) {
         <h2 className='text-2xl font-semibold text-primary sm:text-3xl'>
           {`${listingData?.title} - $${
             listingData.offer
-              ? listingData.discountPrice
-              : listingData.regularPrice
+              ? listingData.discountPrice.toLocaleString('en-US')
+              : listingData.regularPrice.toLocaleString('en-US')
           }${listingData.type === 'rent' ? '/month' : ''}`}
         </h2>
         <h2 className=' text-sm text-slate-700 sm:text-lg font-medium flex gap-1 items-center'>
