@@ -45,3 +45,9 @@ export async function getSingleListing(listingId) {
   const data = await res.json();
   return data;
 }
+
+export async function getSearchListings(searchQuery) {
+  const res = await fetch(`/api/listing/get-listings${searchQuery}`);
+  const data = await res.json();
+  return data;
+}
