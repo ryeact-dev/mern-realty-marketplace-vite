@@ -1,7 +1,7 @@
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-export default function ListingCard({ listing }) {
+export default function ListingCard({ singleListing }) {
   const {
     _id,
     title,
@@ -14,7 +14,7 @@ export default function ListingCard({ listing }) {
     bathrooms,
     offer,
     type,
-  } = listing;
+  } = singleListing;
 
   return (
     <div className='bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[300px] m-1'>

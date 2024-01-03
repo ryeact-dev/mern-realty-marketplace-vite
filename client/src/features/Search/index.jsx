@@ -6,6 +6,9 @@ export default function Search({
   onChangeHandler,
   isLoading,
   listings,
+  fetchNextPage,
+  isFetchingNextPage,
+  hasNextPage,
 }) {
   return (
     <section className='flex flex-col md:flex-row mx-auto max-w-[1440px]'>
@@ -109,7 +112,13 @@ export default function Search({
           </button>
         </form>
       </aside>
-      <ListingsData listings={listings} isLoading={isLoading} />
+      <ListingsData
+        listings={listings}
+        isLoading={isLoading}
+        fetchNextPage={fetchNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        hasNextPage={hasNextPage}
+      />
     </section>
   );
 }

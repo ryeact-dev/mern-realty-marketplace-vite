@@ -1,6 +1,6 @@
 import { getSearchListings } from '@/api/listing.api';
 import Search from '@/features/Search';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -65,9 +65,28 @@ export default function SearchPage() {
     navigate(`/search?${searchQuery}`);
   };
 
-  const { isLoading, data: listings = [] } = useQuery({
+  // const { isLoading, data: listings = [] } = useQuery({
+  //   queryKey: ['listings', searchParams],
+  //   queryFn: () => getSearchListings(`${searchParams}&cursor`),
+  // });
+
+  const {
+    data: listings,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
     queryKey: ['listings', searchParams],
-    queryFn: () => getSearchListings(searchParams),
+    queryFn: ({ pageParam }) =>
+      getSearchListings(`${searchParams}&cursor=${pageParam}`),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    select: ({ pages }) => {
+      return pages;
+    },
   });
 
   return (
@@ -77,6 +96,9 @@ export default function SearchPage() {
       onChangeHandler={onChangeHandler}
       listings={listings}
       isLoading={isLoading}
+      fetchNextPage={fetchNextPage}
+      isFetchingNextPage={isFetchingNextPage}
+      hasNextPage={hasNextPage}
     />
   );
 }

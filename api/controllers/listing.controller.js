@@ -66,8 +66,8 @@ export async function updateListing(req, res, next) {
 
 export async function getListings(req, res, next) {
   let {
-    limit = 9,
-    startIndex = 0,
+    limit = 2,
+    cursor,
     searchTerm = '',
     sort = 'createAt',
     order = 'desc',
@@ -94,7 +94,7 @@ export async function getListings(req, res, next) {
   }
 
   try {
-    const listings = await Listing.find({
+    const foundListings = await Listing.find({
       title: { $regex: searchTerm, $options: 'i' },
       offer,
       furnished,
@@ -102,10 +102,15 @@ export async function getListings(req, res, next) {
       type,
     })
       .sort({ [sort]: order })
-      .limit(limit)
-      .skip(startIndex);
+      .limit(Number(limit))
+      .skip(Number(cursor) * Number(limit));
 
-    return res.status(201).json(listings);
+    const nextCursor = Number(cursor) + 1;
+
+    return res.status(201).json({
+      foundListings,
+      nextCursor: foundListings.length < 2 ? null : nextCursor,
+    });
   } catch (err) {
     next(err);
   }
