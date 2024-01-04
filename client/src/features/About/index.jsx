@@ -1,6 +1,7 @@
 export default function About() {
   return (
     <section className='max-w-5xl mx-auto my-10'>
+      <h1 className='text-3xl uppercase font-bold mb-8'>About MERNEState</h1>
       <p>
         <span className='font-semibold'>Welcome to MERNEstate,</span>
         your one-stop solution for all your real estate needs. We are a modern,
