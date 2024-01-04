@@ -29,10 +29,6 @@ export async function updateFavorites(req, res, next) {
     return next(errorHandler(404, 'Listing not found'));
   }
 
-  if (userId !== listing.userRef) {
-    return next(errorHandler(401, 'You can only delete you own listings!'));
-  }
-
   try {
     const updatedListing = await Listing.findByIdAndUpdate(paramsId, req.body, {
       new: true,
