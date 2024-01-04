@@ -1,3 +1,6 @@
+import { toggleFavorites } from '@/api/listing.api';
+import { useUserStore } from '@/store';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   FaBath,
   FaBed,
@@ -8,7 +11,18 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 export default function ListingCard({ singleListing }) {
+  const currentUser = useUserStore((state) => state.currentUser);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const onToggleFavoritesMutation = useMutation({
+    mutationFn: toggleFavorites,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: [`listings-${data.type}`] });
+      queryClient.invalidateQueries({ queryKey: [`listings-offer`] });
+      queryClient.invalidateQueries({ queryKey: [`listings-all`] });
+    },
+  });
 
   const {
     _id,
@@ -29,9 +43,23 @@ export default function ListingCard({ singleListing }) {
     navigate(`/single-listing/${_id}`);
   };
 
+  const onToggleFavoritesClickHandler = (evt) => {
+    evt.preventDefault();
+    const toggleFavorties = {
+      isFav: !isFav,
+    };
+
+    onToggleFavoritesMutation.mutate({ listingId: _id, toggleFavorties });
+  };
+
+  const offerSaves = Number(regularPrice) - Number(discountPrice);
+
   return (
     <article className='bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[300px] m-1'>
       <figure className='relative'>
+        <p className='absolute top-3 right-3 bg-green-600/80 px-4 py-1 rounded-full text-base font-meduim text-white z-[1] cursor-default'>
+          ${offerSaves} off
+        </p>
         <img
           loading='lazy'
           src={imgUrls[0]}
@@ -45,13 +73,19 @@ export default function ListingCard({ singleListing }) {
             <p className='truncate text-lg font-semibold text-slate-700'>
               {title}
             </p>
-            <button className='bg-slate-100 p-2 rounded-md hover:bg-slate-200 transition-all duration-200 ease-in'>
-              {isFav ? (
-                <FaHeart size={24} className='text-red-500' />
-              ) : (
-                <FaRegHeart size={24} className='text-red-500' />
-              )}
-            </button>
+            {currentUser && (
+              <button
+                type='button'
+                onClick={onToggleFavoritesClickHandler}
+                className='bg-slate-100 p-2 rounded-md hover:bg-slate-200 transition-all duration-200 ease-in'
+              >
+                {isFav ? (
+                  <FaHeart size={24} className='text-red-500' />
+                ) : (
+                  <FaRegHeart size={24} className='text-red-500' />
+                )}
+              </button>
+            )}
           </div>
           <div className='flex items-center gap-1 text-sm my-3'>
             <FaMapMarkerAlt className='text-green-700' />

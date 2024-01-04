@@ -10,8 +10,10 @@ import {
   FaRegWindowClose,
 } from 'react-icons/fa';
 import ContactLandlord from './ContactLandlord';
+import { useNavigate } from 'react-router-dom';
 
 export default function SingleListing({ listingData, currentUser }) {
+  const navigate = useNavigate();
   const [showAllPhotos, setShowAllPhotos] = useState(false);
   const [contactLandlord, setContactLandlord] = useState(false);
 
@@ -73,6 +75,15 @@ export default function SingleListing({ listingData, currentUser }) {
             {listingData.furnished ? 'Furnished' : 'Unfurnished'}
           </li>
         </ul>
+        {!currentUser && (
+          <button
+            type='button'
+            onClick={() => navigate('/login')}
+            className='my-4 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3 w-full'
+          >
+            Login to contact landlord
+          </button>
+        )}
         {currentUser &&
           listingData.userRef !== currentUser._id &&
           !contactLandlord && (

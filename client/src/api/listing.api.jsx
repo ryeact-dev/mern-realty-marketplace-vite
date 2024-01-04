@@ -28,6 +28,18 @@ export async function deleteUserListing(listingId) {
   return data;
 }
 
+export async function toggleFavorites({ listingId, toggleFavorties }) {
+  const res = await fetch(`/api/listing/favorites/${listingId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(toggleFavorties),
+  });
+  const data = await res.json();
+  return data;
+}
+
 export async function updateUserListing({ listingId, userFormData }) {
   const res = await fetch(`/api/listing/update/${listingId}`, {
     method: 'PATCH',

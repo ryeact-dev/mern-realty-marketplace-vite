@@ -20,6 +20,29 @@ export async function createListing(req, res, next) {
   }
 }
 
+export async function updateFavorites(req, res, next) {
+  const userId = req.user.id;
+  const paramsId = req.params.id;
+  const listing = await Listing.findById(paramsId);
+
+  if (!listing) {
+    return next(errorHandler(404, 'Listing not found'));
+  }
+
+  if (userId !== listing.userRef) {
+    return next(errorHandler(401, 'You can only delete you own listings!'));
+  }
+
+  try {
+    const updatedListing = await Listing.findByIdAndUpdate(paramsId, req.body, {
+      new: true,
+    });
+    res.status(200).json(updatedListing);
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function deleteListing(req, res, next) {
   const userId = req.user.id;
   const paramsId = req.params.id;

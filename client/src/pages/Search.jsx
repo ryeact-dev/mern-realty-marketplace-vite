@@ -1,6 +1,6 @@
 import { getSearchListings } from '@/api/listing.api';
 import Search from '@/features/Search';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -65,11 +65,6 @@ export default function SearchPage() {
     navigate(`/search?${searchQuery}`);
   };
 
-  // const { isLoading, data: listings = [] } = useQuery({
-  //   queryKey: ['listings', searchParams],
-  //   queryFn: () => getSearchListings(`${searchParams}&cursor`),
-  // });
-
   const {
     data: listings,
     error,
@@ -79,7 +74,7 @@ export default function SearchPage() {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ['listings', searchParams],
+    queryKey: ['listings-all', searchParams],
     queryFn: ({ pageParam }) =>
       getSearchListings(`${searchParams}&cursor=${pageParam}`),
     initialPageParam: 0,
