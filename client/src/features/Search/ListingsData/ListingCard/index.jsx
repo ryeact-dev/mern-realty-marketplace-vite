@@ -20,6 +20,7 @@ export default function ListingCard({ singleListing }) {
     <div className='bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[300px] m-1'>
       <Link to={`/single-listing/${_id}`}>
         <img
+          loading='lazy'
           src={imgUrls[0]}
           alt='listing-cover'
           className='h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300'
