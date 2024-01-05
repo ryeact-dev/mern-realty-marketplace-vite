@@ -37,7 +37,7 @@ app.use(
   cors({
     credentials: true,
     origin: [
-      'https://mern-realty-marketplace-vite-rho.vercel.app/',
+      'https://mern-realty-marketplace-vite-two.vercel.app',
       'http://localhost:3000',
     ],
   })
