@@ -3,9 +3,10 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+// import path from 'path';
 dotenv.config();
-import path from 'path';
-const __dirname = path.resolve();
+// const __dirname = path.resolve();
+
 // Routes
 import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
@@ -24,12 +25,13 @@ mongoose
 const app = express();
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '/client/build')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/client/build/index.html'), (err) => {
-    if (err) res.status(500).send(err);
-  });
-});
+
+// app.use(express.static(path.join(__dirname, '/client/build')));
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/client/build/index.html'), (err) => {
+//     if (err) res.status(500).send(err);
+//   });
+// });
 
 app.use(
   cors({
