@@ -1,5 +1,7 @@
+const baseURL = import.meta.env.VITE_API_URL;
+
 export async function signin(formData) {
-  const res = await fetch('/api/auth/signin', {
+  const res = await fetch(baseURL + '/api/auth/signin', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -12,7 +14,7 @@ export async function signin(formData) {
 }
 
 export async function signup(formData) {
-  const res = await fetch('/api/auth/signup', {
+  const res = await fetch(baseURL + '/api/auth/signup', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -25,7 +27,7 @@ export async function signup(formData) {
 }
 
 export async function googleAuth(formData) {
-  const res = await fetch('/api/auth/google', {
+  const res = await fetch(baseURL + '/api/auth/google', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -38,7 +40,7 @@ export async function googleAuth(formData) {
 }
 
 export async function updateUser(formData) {
-  const res = await fetch(`/api/user/update/${formData.id}`, {
+  const res = await fetch(`${baseURL}/api/user/update/${formData.id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -51,7 +53,7 @@ export async function updateUser(formData) {
 }
 
 export async function deleteUser(id) {
-  const res = await fetch(`/api/user/delete/${id}`, {
+  const res = await fetch(`${baseURL}/api/user/delete/${id}`, {
     method: 'DELETE',
   });
 
@@ -60,13 +62,13 @@ export async function deleteUser(id) {
 }
 
 export async function logoutUser() {
-  const res = await fetch(`/api/auth/logout`);
+  const res = await fetch(baseURL + '/api/auth/logout');
   const data = await res.json();
   return data;
 }
 
 export async function getUser(userId) {
-  const res = await fetch(`/api/user/${userId}`);
+  const res = await fetch(`${baseURL}/api/user/${userId}`);
   const data = await res.json();
   return data;
 }

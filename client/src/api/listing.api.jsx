@@ -1,5 +1,7 @@
+const baseURL = import.meta.env.VITE_API_URL;
+
 export async function saveUserListing({ userFormData }) {
-  const response = await fetch('/api/listing/create', {
+  const response = await fetch(baseURL + '/api/listing/create', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -12,13 +14,13 @@ export async function saveUserListing({ userFormData }) {
 }
 
 export async function getUserListings({ userId }) {
-  const res = await fetch(`/api/user/listings/${userId}`);
+  const res = await fetch(`${baseURL}/api/user/listings/${userId}`);
   const data = await res.json();
   return data;
 }
 
 export async function deleteUserListing(listingId) {
-  const res = await fetch(`/api/listing/delete/${listingId}`, {
+  const res = await fetch(`${baseURL}/api/listing/delete/${listingId}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -29,7 +31,7 @@ export async function deleteUserListing(listingId) {
 }
 
 export async function toggleFavorites({ listingId, toggleFavorties }) {
-  const res = await fetch(`/api/listing/favorites/${listingId}`, {
+  const res = await fetch(`${baseURL}/api/listing/favorites/${listingId}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -41,7 +43,7 @@ export async function toggleFavorites({ listingId, toggleFavorties }) {
 }
 
 export async function updateUserListing({ listingId, userFormData }) {
-  const res = await fetch(`/api/listing/update/${listingId}`, {
+  const res = await fetch(`${baseURL}/api/listing/update/${listingId}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -53,13 +55,13 @@ export async function updateUserListing({ listingId, userFormData }) {
 }
 
 export async function getSingleListing(listingId) {
-  const res = await fetch(`/api/listing/single/${listingId}`);
+  const res = await fetch(`${baseURL}/api/listing/single/${listingId}`);
   const data = await res.json();
   return data;
 }
 
 export async function getSearchListings(searchQuery) {
-  const res = await fetch(`/api/listing/get-listings${searchQuery}`);
+  const res = await fetch(`${baseURL}/api/listing/get-listings${searchQuery}`);
   const data = await res.json();
   return data;
 }
