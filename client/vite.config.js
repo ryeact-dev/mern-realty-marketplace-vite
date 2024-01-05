@@ -6,7 +6,7 @@ import * as path from 'path';
 export default defineConfig({
   server: {
     proxy: {
-      '/api': {
+      '/': {
         target: 'https://mern-realty-marketplace-vite.vercel.app',
         changeOrigin: true,
         secure: false,
