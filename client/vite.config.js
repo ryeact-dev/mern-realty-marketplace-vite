@@ -8,7 +8,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         // target: 'http://localhost:3000',
-        target: 'https://mern-realty-marketplace-vite.vercel.app',
+        target: 'https://mern-realty-marketplace-vite.vercel.app:3000',
         secure: false,
       },
     },
