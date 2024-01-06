@@ -12,7 +12,7 @@ export default function SearchPage() {
   const navigate = useNavigate();
   const [sidebarData, setSidebarData] = useState({
     searchTerm: searchTermFromUrl || '',
-    type: searchParams?.split('=')[1] || 'all',
+    type: 'all',
     parking: false,
     furnished: false,
     offer: false,

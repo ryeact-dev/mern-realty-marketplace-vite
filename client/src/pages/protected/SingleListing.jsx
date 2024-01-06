@@ -14,7 +14,7 @@ export default function SingleListingPage() {
   });
 
   return isLoading ? (
-    <p>Loading Data...</p>
+    <p className='text-center my-7'>Loading Data...</p>
   ) : listingData?.success === false || !listingData ? (
     <Navigate to='/' />
   ) : (

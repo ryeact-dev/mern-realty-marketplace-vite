@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeroSection from './components/HeroSection';
 import ListingsBody from './components/ListingsBody';
+import MailList from './components/MailList';
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -65,6 +66,7 @@ export default function Home() {
         loadingSaleListings={loadingSaleListings}
         saleListingsData={saleListingsData}
       />
+      <MailList />
     </>
   );
 }

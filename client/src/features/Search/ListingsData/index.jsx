@@ -10,10 +10,7 @@ export default function ListingsData({
 }) {
   return (
     <article className='flex-1'>
-      <h1 className='text-3xl font-semibold border-b p-3 text-slate-700 mt-5'>
-        Listing Results:
-      </h1>
-      <div className='p-4 flex flex-wrap gap-3'>
+      <div className='p-4 flex items-center flex-wrap gap-3'>
         {!isLoading && listings[0]?.foundListings.length === 0 && (
           <p className='text-xl text-slate-700'>No listing found!</p>
         )}

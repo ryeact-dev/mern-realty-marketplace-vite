@@ -11,24 +11,27 @@ export default function Search({
   hasNextPage,
 }) {
   return (
-    <section className='flex flex-col md:flex-row mx-auto max-w-[1440px]'>
-      <aside className='p-7 border-b-2 md:border-r-2 md:min-h-screen'>
-        <form onSubmit={onSubmitHandler} className='flex flex-col gap-8'>
-          <div className='flex items-center gap-2'>
+    <section className='flex flex-col md:flex-row mx-auto max-w-6xl'>
+      <aside>
+        <form
+          onSubmit={onSubmitHandler}
+          className='flex flex-col gap-4 sticky top-16 bg-slate-200 p-6 rounded-xl'
+        >
+          <div className='flex flex-col gap-2'>
             <label className='whitespace-nowrap font-semibold'>
               Search Term:
             </label>
             <input
               type='text'
               id='searchTerm'
-              placeholder='Search...'
+              placeholder='Search title or address...'
               className='border rounded-lg p-3 w-full'
               value={sidebarData.searchTerm}
               onChange={onChangeHandler}
             />
           </div>
+          <label className='font-semibold'>Type:</label>
           <div className='flex flex-wrap gap-3 items-center'>
-            <label className='font-semibold'>Type:</label>
             <div className='flex gap-1'>
               <input
                 type='checkbox'
@@ -49,6 +52,8 @@ export default function Search({
               />
               <span>Rent</span>
             </div>
+          </div>
+          <div className='flex flex-wrap gap-3 items-center'>
             <div className='flex gap-1'>
               <input
                 type='checkbox'
@@ -70,8 +75,8 @@ export default function Search({
               <span>Offer</span>
             </div>
           </div>
+          <label className='font-semibold'>Aminities:</label>
           <div className='flex flex-wrap gap-3 items-center'>
-            <label className='font-semibold'>Aminities:</label>
             <div className='flex gap-1'>
               <input
                 type='checkbox'

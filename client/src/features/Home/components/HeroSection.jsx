@@ -9,11 +9,14 @@ export default function HeroSection({
   return (
     <section className={`bg-[url('/hero-bg.jpg')] bg-center bg-cover relative`}>
       {/* Hero Section */}
-      <article className='backdrop-brightness-50 mb-16'>
+      <article className='backdrop-brightness-[20%] mb-16'>
         <div className='flex flex-col gap-6 md:px-3 py-28 px-2 sm:px-0 max-w-6xl mx-auto'>
           <h1 className='text-slate-100 font-bold text-4xl lg:text-5xl'>
-            Find you next <span className='text-slate-400'>perfect</span> <br />
-            place with ease
+            Discover Your Dream Home
+            <br />
+            <span className='text-3xl text-slate-300'>
+              Where Modern Elegance Meets Timeless Comfort.
+            </span>
           </h1>
           <p className='text-gray-100 text-xs sm:text-sm'>
             MERN Estate is the best place to find you next perfect place to
