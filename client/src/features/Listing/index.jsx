@@ -27,7 +27,7 @@ export default function Listing({ INITIAL_VALUES, currentUser, paramsId }) {
 
   const saveListingMutation = useMutation({
     mutationFn: mutationFn,
-    onError: (response) => setOnError(response),
+    onError: (response) => setOnError(response.message),
     onSuccess: (data) => {
       setIsLoading(false);
       if (data.success === false) {
