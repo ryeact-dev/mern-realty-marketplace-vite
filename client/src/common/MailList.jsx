@@ -3,7 +3,7 @@ export default function MailList() {
     <div className='w-full mt-10 bg-green-600 text-white flex flex-col items-center gap-5 p-12 -mb-10'>
       <h1 className='text-4xl font-semibold'>Save time, save money!</h1>
       <span>Sign up and well send the best deals to you</span>
-      <div className='flex flex-col sm:flex-row gap-2 w-full items-center'>
+      <div className='flex flex-col sm:flex-row gap-2 w-full sm:w-2/6 items-center justify-center'>
         <input
           type='text'
           placeholder='Your Email...'

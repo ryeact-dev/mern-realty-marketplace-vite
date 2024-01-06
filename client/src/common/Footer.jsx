@@ -2,8 +2,8 @@ export default function Footer() {
   return (
     <footer className='bg-slate-500'>
       <div className='w-full max-w-6xl mx-auto text-sm text-white px-4 pb-10 pt-8 '>
-        <div className='w-full flex items-start justify-between'>
-          <ul className='flex flex-col gap-2 flex-1'>
+        <div className='flex flex-col  sm:flex-row items-start justify-between'>
+          <ul className='flex flex-col gap-2 flex-1 mb-4 pb-2 w-full border-b-2 border-slate-400 sm:border-0'>
             <li className='hover:font-semibold hover:cursor-pointer'>
               Countries
             </li>
@@ -19,7 +19,7 @@ export default function Footer() {
             </li>
             <li className='hover:font-semibold hover:cursor-pointer'>Hotels</li>
           </ul>
-          <ul className='flex flex-col gap-2 flex-1'>
+          <ul className='flex flex-col gap-2 flex-1 mb-4 pb-2 w-full border-b-2 border-slate-400 sm:border-0'>
             <li className='hover:font-semibold hover:cursor-pointer'>Homes </li>
             <li className='hover:font-semibold hover:cursor-pointer'>
               Apartments{' '}
@@ -35,7 +35,7 @@ export default function Footer() {
               Guest houses
             </li>
           </ul>
-          <ul className='flex flex-col gap-2 flex-1'>
+          <ul className='flex flex-col gap-2 flex-1 mb-4 pb-2 w-full border-b-2 border-slate-400 sm:border-0'>
             <li className='hover:font-semibold hover:cursor-pointer'>
               Unique places to stay{' '}
             </li>
@@ -52,7 +52,7 @@ export default function Footer() {
               Seasonal and holiday deals{' '}
             </li>
           </ul>
-          <ul className='flex flex-col gap-2 flex-1'>
+          <ul className='flex flex-col gap-2 flex-1 mb-4 pb-2 w-full border-b-2 border-slate-400 sm:border-0'>
             <li className='hover:font-semibold hover:cursor-pointer'>
               Car rental{' '}
             </li>
@@ -66,7 +66,7 @@ export default function Footer() {
               Travel Agents{' '}
             </li>
           </ul>
-          <ul className='flex flex-col gap-2 flex-1'>
+          <ul className='flex flex-col gap-2 flex-1 mb-4 pb-2 w-full border-b-2 border-slate-400 sm:border-0'>
             <li className='hover:font-semibold hover:cursor-pointer'>
               Curtomer Service
             </li>
