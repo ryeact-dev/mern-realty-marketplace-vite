@@ -34,7 +34,11 @@ export async function signin(req, res, next) {
 
     const { password: pass, ...rest } = validUser._doc;
 
-    res.cookie('token', token, { httpOnly: true, sameSite: 'none' });
+    res.cookie('token', token, {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    });
     res.status(200).json(rest);
   } catch (err) {
     next(err);
@@ -55,7 +59,11 @@ export async function googleAuth(req, res, next) {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
       const { password: pass, ...rest } = user._doc;
 
-      res.cookie('token', token, { httpOnly: true, sameSite: 'none' });
+      res.cookie('token', token, {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+      });
       res.status(200).json(rest);
     } else {
       const generatedPassword =
@@ -74,7 +82,11 @@ export async function googleAuth(req, res, next) {
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
 
       const { password: pass, ...rest } = newUser._doc;
-      res.cookie('token', token, { httpOnly: true, sameSite: 'none' });
+      res.cookie('token', token, {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+      });
       res.status(200).json(rest);
     }
   } catch (err) {
