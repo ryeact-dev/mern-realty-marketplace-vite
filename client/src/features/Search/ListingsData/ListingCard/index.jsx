@@ -55,7 +55,7 @@ export default function ListingCard({ singleListing }) {
   const offerSaves = Number(regularPrice) - Number(discountPrice);
 
   return (
-    <article className='bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[300px] m-1'>
+    <article className='bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[270px]'>
       <figure className='relative'>
         <p className='absolute top-3 right-3 bg-green-600/80 px-4 py-1 rounded-full text-base font-meduim text-white z-[1] cursor-default'>
           ${offerSaves} off
@@ -118,7 +118,7 @@ export default function ListingCard({ singleListing }) {
             <button
               type='button'
               onClick={onViewDetailsClickHandler}
-              className='px-8 py-2 bg-slate-700 rounded-full text-white fond-bold hover:opacity-95'
+              className='px-5 py-1 bg-slate-700 rounded-full text-white fond-bold hover:opacity-95'
             >
               View Details
             </button>

@@ -45,7 +45,7 @@ export default function ListingsBody({
         </div>
         {loadingRentListings && <p>Loading listings</p>}
         {!loadingRentListings && rentListingsData?.length > 0 && (
-          <div className='flex flex-wrap gap-4'>
+          <div className='w-full flex flex-wrap justify-between gap-2'>
             {rentListingsData?.map((listing) => (
               <ListingCard singleListing={listing} key={listing._id} />
             ))}
