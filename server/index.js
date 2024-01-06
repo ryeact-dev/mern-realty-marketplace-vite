@@ -36,10 +36,7 @@ app.use(express.json());
 app.use(
   cors({
     credentials: true,
-    origin: [
-      'https://mern-realty-marketplace-vite-two.vercel.app',
-      'http://localhost:3000',
-    ],
+    origin: [process.env.LOCALHOST_URL, process.env.VERCEL_URL],
   })
 );
 app.use(cookieParser());
