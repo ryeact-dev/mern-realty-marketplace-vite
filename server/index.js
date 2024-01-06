@@ -28,8 +28,10 @@ app.use(express.json());
 
 app.use(
   cors({
+    origin: process.env.VERCEL_URL,
+    methods: '*',
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
-    origin: 'https://mern-realty-marketplace-vite-two.vercel.app',
   })
 );
 
