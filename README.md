@@ -9,7 +9,7 @@ Currently, two official plugins are available:
 
 ## Demo
 
-https://mern-real-estate-app-jqlq.onrender.com/
+https://mern-realty-marketplace-vite-two.vercel.app/
 
 ## Tech Stack
 
