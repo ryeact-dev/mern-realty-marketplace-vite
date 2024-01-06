@@ -22,14 +22,14 @@ mongoose
   });
 
 const app = express();
-const whitelist = [process.env.LOCALHOST_URL, process.env.VERCEL_URL];
+const whitelist = [process.env.VERCEL_URL];
 
 app.use(express.json());
 
 app.use(
   cors({
     credentials: true,
-    origin: whitelist,
+    origin: 'https://mern-realty-marketplace-vite-two.vercel.app',
   })
 );
 
