@@ -21,6 +21,7 @@ export default function ListingCard({ singleListing }) {
       queryClient.invalidateQueries({ queryKey: [`listings-${data.type}`] });
       queryClient.invalidateQueries({ queryKey: [`listings-offer`] });
       queryClient.invalidateQueries({ queryKey: [`listings-all`] });
+      queryClient.invalidateQueries({ queryKey: ['listings-favorites'] });
     },
   });
 

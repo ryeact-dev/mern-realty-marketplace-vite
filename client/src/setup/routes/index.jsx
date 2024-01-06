@@ -8,6 +8,7 @@ import CreateListingPage from '@/pages/protected/CreateListing';
 import UpdateListingPage from '@/pages/protected/UpdateListing';
 import SingleListingPage from '@/pages/protected/SingleListing';
 import SearchPage from '@/pages/Search';
+import FavoritesPage from '@/pages/protected/Favorites';
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       {
         path: '/single-listing/:listingId',
         element: <SingleListingPage />,
+      },
+      {
+        path: '/favorites',
+        element: <FavoritesPage />,
       },
     ],
   },

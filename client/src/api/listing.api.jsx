@@ -47,6 +47,17 @@ export async function toggleFavorites({ listingId, toggleFavorties }) {
   return data;
 }
 
+export async function getUserFavorites(searchQuery) {
+  const res = await fetch(
+    `${baseURL}/api/listing/get-favorites${searchQuery}`,
+    {
+      credentials: 'include',
+    }
+  );
+  const data = await res.json();
+  return data;
+}
+
 export async function updateUserListing({ listingId, userFormData }) {
   const res = await fetch(`${baseURL}/api/listing/update/${listingId}`, {
     method: 'PATCH',

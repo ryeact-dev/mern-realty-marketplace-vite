@@ -21,7 +21,6 @@ export async function createListing(req, res, next) {
 }
 
 export async function updateFavorites(req, res, next) {
-  const userId = req.user.id;
   const paramsId = req.params.id;
   const listing = await Listing.findById(paramsId);
 
@@ -34,6 +33,30 @@ export async function updateFavorites(req, res, next) {
       new: true,
     });
     res.status(200).json(updatedListing);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function getUserFavorites(req, res, next) {
+  const userId = req.user.id;
+
+  const { cursor, limit = 1 } = req.query;
+
+  try {
+    const foundListings = await Listing.find({
+      isFav: true,
+    })
+      .sort({ ['createAt']: 'desc' })
+      .limit(Number(limit))
+      .skip(Number(cursor) * Number(limit));
+
+    const nextCursor = Number(cursor) + 1;
+
+    return res.status(201).json({
+      foundListings,
+      nextCursor: foundListings.length < 1 ? null : nextCursor,
+    });
   } catch (err) {
     next(err);
   }

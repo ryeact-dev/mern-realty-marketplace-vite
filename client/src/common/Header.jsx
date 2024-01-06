@@ -22,6 +22,13 @@ export default function Header() {
           <NavLink to={`/about`}>
             <li className=' text-slate-700 hover:cursor-pointer'>About</li>
           </NavLink>
+          {currentUser && (
+            <NavLink to={`/favorites`}>
+              <li className=' text-slate-700 hover:cursor-pointer'>
+                Favorties
+              </li>
+            </NavLink>
+          )}
           <NavLink to={currentUser ? `/profile` : `/login`}>
             {currentUser ? (
               <img

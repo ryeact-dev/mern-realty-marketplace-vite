@@ -4,6 +4,7 @@ import {
   deleteListing,
   getListings,
   getSingleListing,
+  getUserFavorites,
   updateFavorites,
   updateListing,
 } from '../controllers/listing.controller.js';
@@ -13,6 +14,7 @@ const router = express.Router();
 
 router.get('/single/:listingId', getSingleListing);
 router.get('/get-listings', getListings);
+router.get('/get-favorites', verifyToken, getUserFavorites);
 router.post('/create', verifyToken, createListing);
 router.patch('/update/:id', verifyToken, updateListing);
 router.patch('/favorites/:id', verifyToken, updateFavorites);
