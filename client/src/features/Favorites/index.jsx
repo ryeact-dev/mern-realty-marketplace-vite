@@ -23,7 +23,7 @@ export default function Favorites() {
   return (
     <section className='max-w-6xl mx-auto p-2 sm:p-3'>
       <h2 className='text-2xl font-bold mb-2 text-slate-600'>Favorites</h2>
-      <div className='p-4 flex flex-wrap gap-3'>
+      <div className='p-2 sm:p-0 flex flex-wrap gap-3'>
         {!isLoading && userFavorites[0]?.foundListings.length === 0 && (
           <p className='text-xl text-slate-700'>No listing found!</p>
         )}

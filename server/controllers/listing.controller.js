@@ -21,6 +21,7 @@ export async function createListing(req, res, next) {
 }
 
 export async function updateFavorites(req, res, next) {
+  const userId = req.user.id;
   const paramsId = req.params.id;
   const listing = await Listing.findById(paramsId);
 
@@ -28,10 +29,16 @@ export async function updateFavorites(req, res, next) {
     return next(errorHandler(404, 'Listing not found'));
   }
 
+  const updateData = { ...req.body, favUserRef: userId };
+
   try {
-    const updatedListing = await Listing.findByIdAndUpdate(paramsId, req.body, {
-      new: true,
-    });
+    const updatedListing = await Listing.findByIdAndUpdate(
+      paramsId,
+      updateData,
+      {
+        new: true,
+      }
+    );
     res.status(200).json(updatedListing);
   } catch (err) {
     next(err);
@@ -41,13 +48,14 @@ export async function updateFavorites(req, res, next) {
 export async function getUserFavorites(req, res, next) {
   const userId = req.user.id;
 
-  const { cursor, limit = 1 } = req.query;
+  const { cursor, limit = 8 } = req.query;
 
   try {
     const foundListings = await Listing.find({
+      favUserRef: userId,
       isFav: true,
     })
-      .sort({ ['createAt']: 'desc' })
+      .sort({ ['updatedAt']: 'desc' })
       .limit(Number(limit))
       .skip(Number(cursor) * Number(limit));
 
@@ -55,7 +63,7 @@ export async function getUserFavorites(req, res, next) {
 
     return res.status(201).json({
       foundListings,
-      nextCursor: foundListings.length < 1 ? null : nextCursor,
+      nextCursor: foundListings.length < 8 ? null : nextCursor,
     });
   } catch (err) {
     next(err);

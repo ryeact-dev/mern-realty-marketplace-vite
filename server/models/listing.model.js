@@ -16,6 +16,7 @@ const listingSchema = new mongoose.Schema(
     imgUrls: { type: Array, required: true },
     userRef: { type: String, required: true },
     isFav: { type: Boolean, default: false },
+    favUserRef: { type: String },
   },
   { timestamps: true }
 );
