@@ -6,7 +6,9 @@ export default function Layout() {
   return (
     <main>
       <Header />
-      <Outlet />
+      <section className='mb-10'>
+        <Outlet />
+      </section>
       <Footer />
     </main>
   );

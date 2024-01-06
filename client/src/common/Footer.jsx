@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
-    <footer className='bg-slate-500 '>
-      <div className='w-full max-w-6xl mx-auto text-sm text-white px-4 py-16 '>
+    <footer className='bg-slate-500'>
+      <div className='w-full max-w-6xl mx-auto text-sm text-white px-4 pb-10 pt-8 '>
         <div className='w-full flex items-start justify-between'>
           <ul className='flex flex-col gap-2 flex-1'>
             <li className='hover:font-semibold hover:cursor-pointer'>

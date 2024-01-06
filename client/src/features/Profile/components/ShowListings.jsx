@@ -73,21 +73,19 @@ export default function ShowListings({ currentUser, setOnError }) {
               >
                 <Link
                   to={`/single-listing/${listing._id}`}
-                  className='capitalize flex items-start gap-1 hover:text-green-700'
+                  className='capitalize flex justify-start gap-4 hover:text-green-700'
                 >
-                  <figure className='w-full'>
-                    <Image
-                      src={listing.imgUrls[0]}
-                      alt='listing-cover'
-                      className='h-28 w-28 object-cover rounded-md'
-                    />
-                  </figure>
-                  <figcaption className='font-medium'>
+                  <Image
+                    src={listing.imgUrls[0]}
+                    alt='listing-cover'
+                    className='h-28 w-28 object-cover rounded-md'
+                  />
+                  <div className='font-medium'>
                     <p className=''>{listing.title}</p>
                     <p className='font-normal text-xs opacity-80 text-slate-700 leading-5'>
                       {listing.description.slice(0, 100)}...
                     </p>
-                  </figcaption>
+                  </div>
                 </Link>
 
                 <div className='space-y-2'>

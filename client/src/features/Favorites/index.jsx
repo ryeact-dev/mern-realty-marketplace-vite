@@ -5,7 +5,7 @@ import ListingCard from '../Search/ListingsData/ListingCard';
 
 export default function Favorites() {
   const {
-    data: userFavorites,
+    data: userFavorites = [],
     fetchNextPage,
     hasNextPage,
     isLoading,
@@ -23,12 +23,14 @@ export default function Favorites() {
   return (
     <section className='max-w-6xl mx-auto p-2 sm:p-3'>
       <h2 className='text-2xl font-bold mb-2 text-slate-600'>Favorites</h2>
-      <div className='p-2 sm:p-0 flex flex-wrap gap-3'>
+      <div className='p-2 sm:p-0 flex items-center flex-wrap gap-3'>
         {!isLoading && userFavorites[0]?.foundListings.length === 0 && (
-          <p className='text-xl text-slate-700'>No listing found!</p>
+          <p className='text-lg text-slate-600 text-center w-full mt-10 '>
+            No Favorites found!
+          </p>
         )}
         {isLoading && (
-          <p className='text-xl text-slate-700 text-center w-full'>
+          <p className='text-lg text-slate-700 text-center w-full'>
             Loading...
           </p>
         )}
@@ -57,9 +59,7 @@ export default function Favorites() {
           >
             Load More
           </button>
-        ) : (
-          <p className='text-slate-500'>Nothing more to load</p>
-        )}
+        ) : null}
       </div>
     </section>
   );

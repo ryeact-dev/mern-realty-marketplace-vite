@@ -1,10 +1,10 @@
 import { getSearchListings } from '@/api/listing.api';
+import MailList from '@/common/MailList';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeroSection from './components/HeroSection';
 import ListingsBody from './components/ListingsBody';
-import MailList from './components/MailList';
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');

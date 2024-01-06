@@ -1,8 +1,6 @@
-import React from 'react';
-
 export default function MailList() {
   return (
-    <div className='w-full mt-10 bg-green-600 text-white flex flex-col items-center gap-5 p-12'>
+    <div className='w-full mt-10 bg-green-600 text-white flex flex-col items-center gap-5 p-12 -mb-10'>
       <h1 className='text-4xl font-semibold'>Save time, save money!</h1>
       <span>Sign up and well send the best deals to you</span>
       <div className=''>
