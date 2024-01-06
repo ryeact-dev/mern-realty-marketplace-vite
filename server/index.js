@@ -28,7 +28,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: process.env.VERCEL_URL,
+    origin: process.env.LOCALHOST_URL,
     methods: '*',
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
