@@ -6,6 +6,7 @@ export async function saveUserListing({ userFormData }) {
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify(userFormData),
   });
 
@@ -14,7 +15,9 @@ export async function saveUserListing({ userFormData }) {
 }
 
 export async function getUserListings({ userId }) {
-  const res = await fetch(`${baseURL}/api/user/listings/${userId}`);
+  const res = await fetch(`${baseURL}/api/user/listings/${userId}`, {
+    credentials: 'include',
+  });
   const data = await res.json();
   return data;
 }
@@ -25,6 +28,7 @@ export async function deleteUserListing(listingId) {
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
   });
   const data = await res.json();
   return data;
@@ -36,6 +40,7 @@ export async function toggleFavorites({ listingId, toggleFavorties }) {
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify(toggleFavorties),
   });
   const data = await res.json();
@@ -48,6 +53,7 @@ export async function updateUserListing({ listingId, userFormData }) {
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify(userFormData),
   });
   const data = await res.json();

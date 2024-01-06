@@ -6,6 +6,7 @@ export async function signin(formData) {
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify(formData),
   });
 
@@ -19,6 +20,7 @@ export async function signup(formData) {
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify(formData),
   });
 
@@ -32,6 +34,7 @@ export async function googleAuth(formData) {
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify(formData),
   });
 
@@ -45,6 +48,7 @@ export async function updateUser(formData) {
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify(formData),
   });
 
@@ -55,6 +59,7 @@ export async function updateUser(formData) {
 export async function deleteUser(id) {
   const res = await fetch(`${baseURL}/api/user/delete/${id}`, {
     method: 'DELETE',
+    credentials: 'include',
   });
 
   const data = await res.json();
@@ -62,13 +67,17 @@ export async function deleteUser(id) {
 }
 
 export async function logoutUser() {
-  const res = await fetch(baseURL + '/api/auth/logout');
+  const res = await fetch(baseURL + '/api/auth/logout', {
+    credentials: 'include',
+  });
   const data = await res.json();
   return data;
 }
 
 export async function getUser(userId) {
-  const res = await fetch(`${baseURL}/api/user/${userId}`);
+  const res = await fetch(`${baseURL}/api/user/${userId}`, {
+    credentials: 'include',
+  });
   const data = await res.json();
   return data;
 }

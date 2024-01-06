@@ -54,7 +54,7 @@ export default function ListingsBody({
         {rentListingsData?.length === 4 && (
           <div className='w-full text-center'>
             <Link
-              to='/search?offer=rent'
+              to='/search?type=rent'
               className='text-base text-blue-800 hover:underline hover:font-medium'
             >
               Show more places for rent
@@ -82,7 +82,7 @@ export default function ListingsBody({
         {saleListingsData?.length === 4 && (
           <div className='w-full text-center'>
             <Link
-              to='/search?offer=rent'
+              to='/search?type=sale'
               className='text-base text-blue-800 hover:underline hover:font-medium'
             >
               Show more places for sale
