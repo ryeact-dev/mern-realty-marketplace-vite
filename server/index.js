@@ -23,6 +23,9 @@ mongoose
   });
 
 const app = express();
+const whitelist = [process.env.LOCALHOST_URL, process.env.VERCEL_URL];
+
+console.log(whitelist);
 
 app.use(express.json());
 
@@ -36,9 +39,10 @@ app.use(express.json());
 app.use(
   cors({
     credentials: true,
-    origin: [process.env.LOCALHOST_URL, process.env.VERCEL_URL],
+    origin: whitelist,
   })
 );
+
 app.use(cookieParser());
 
 app.use('/api/user', userRouter);
