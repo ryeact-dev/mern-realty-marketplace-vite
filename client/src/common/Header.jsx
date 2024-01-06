@@ -9,7 +9,7 @@ export default function Header() {
       <div className='flex justify-between items-center max-w-6xl mx-auto p-3'>
         {/* Logo */}
         <Link to='/' className='font-bold text-sm sm:text-xl flex flex-wrap'>
-          <span className='text-slate-500'>MERN</span>
+          <span className='text-slate-500'>DREAM</span>
           <span className='text-slate-700'>Estate</span>
         </Link>
         {/* Search Input */}
