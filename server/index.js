@@ -28,7 +28,6 @@ app.use(express.json());
 app.use(
   cors({
     origin: [process.env.ONLINEHOST_URL, process.env.LOCALHOST_URL],
-    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   })
 );
