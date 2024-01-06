@@ -22,13 +22,12 @@ mongoose
   });
 
 const app = express();
-const whitelist = [process.env.VERCEL_URL];
 
 app.use(express.json());
 
 app.use(
   cors({
-    origin: process.env.LOCALHOST_URL,
+    origin: [process.env.ONLINEHOST_URL, process.env.LOCALHOST_URL],
     methods: '*',
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
