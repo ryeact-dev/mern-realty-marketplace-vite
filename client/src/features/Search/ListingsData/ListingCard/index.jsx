@@ -38,6 +38,7 @@ export default function ListingCard({ singleListing }) {
     offer,
     type,
     isFav,
+    favUserRef,
   } = singleListing;
 
   const onViewDetailsClickHandler = () => {
@@ -80,7 +81,7 @@ export default function ListingCard({ singleListing }) {
                 onClick={onToggleFavoritesClickHandler}
                 className='bg-slate-100 p-2 rounded-md hover:bg-slate-200 transition-all duration-200 ease-in'
               >
-                {isFav ? (
+                {isFav && currentUser._id === favUserRef ? (
                   <FaHeart size={24} className='text-red-500' />
                 ) : (
                   <FaRegHeart size={24} className='text-red-500' />
