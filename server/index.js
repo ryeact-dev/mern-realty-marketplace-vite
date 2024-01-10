@@ -27,7 +27,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: [process.env.ONLINEHOST_URL, process.env.LOCALHOST_URL],
+    origin: [process.env.LOCALHOST_URL],
     credentials: true,
   })
 );

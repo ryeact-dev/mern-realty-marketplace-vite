@@ -1,4 +1,5 @@
 import { toggleFavorites } from '@/api/listing.api';
+import Image from '@/common/Image';
 import { useUserStore } from '@/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
@@ -62,8 +63,8 @@ export default function ListingCard({ singleListing }) {
         <p className='absolute top-3 right-3 bg-green-600/80 px-4 py-1 rounded-full text-base font-meduim text-white z-[1] cursor-default'>
           ${offerSaves} off
         </p>
-        <img
-          loading='lazy'
+
+        <Image
           src={imgUrls[0]}
           alt='listing-cover'
           className='h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300'
